@@ -1,6 +1,6 @@
 using ExpenseTracker.Components.Account.Pages;
 using ExpenseTracker.Components.Account.Pages.Manage;
-using ExpenseTracker.Data;
+using ExpenseTracker.Data.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;

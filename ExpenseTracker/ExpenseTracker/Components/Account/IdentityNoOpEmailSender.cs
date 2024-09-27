@@ -1,4 +1,4 @@
-using ExpenseTracker.Data;
+using ExpenseTracker.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 

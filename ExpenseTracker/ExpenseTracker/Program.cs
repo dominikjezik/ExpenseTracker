@@ -1,7 +1,7 @@
-using ExpenseTracker.Client.Pages;
 using ExpenseTracker.Components;
 using ExpenseTracker.Components.Account;
-using ExpenseTracker.Data;
+using ExpenseTracker.Data.DbContext;
+using ExpenseTracker.Data.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +37,9 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
+// Seed database
+// builder.Services.AddTransient<DatabaseSeeder>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +47,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
     app.UseMigrationsEndPoint();
+    
+    // Seed database
+    // using var serviceScope = app.Services.CreateScope();
+    // var seeder = serviceScope.ServiceProvider.GetService<DatabaseSeeder>();
+    // seeder.Seed();
 }
 else
 {

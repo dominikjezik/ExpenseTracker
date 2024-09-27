@@ -1,5 +1,5 @@
 using ExpenseTracker.Client;
-using ExpenseTracker.Data;
+using ExpenseTracker.Data.Identity;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
