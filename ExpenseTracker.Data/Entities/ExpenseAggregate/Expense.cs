@@ -35,7 +35,7 @@ public class Expense : BaseEntity<Guid>
     /// <summary>
     /// Tags which are associated with the expense.
     /// </summary>
-    public IEnumerable<ExpenseExpenseTag> Tags { get; set; } = new List<ExpenseExpenseTag>();
+    public List<ExpenseExpenseTag> Tags { get; set; } = new();
 
     /// <summary>
     /// UserId which created the expense.

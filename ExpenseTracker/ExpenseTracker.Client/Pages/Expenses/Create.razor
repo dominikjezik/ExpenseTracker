@@ -1,0 +1,11 @@
+﻿@page "/expenses/create"
+@using ExpenseTracker.Client.Components
+
+@attribute [StreamRendering]
+
+@* @rendermode InteractiveAuto *@
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<h1>Create new Expense</h1>
+
+<ExpenseDetailForm />

@@ -1,0 +1,25 @@
+﻿@page "/expenses/{ExpenseId:guid}"
+@using ExpenseTracker.Client.Components
+
+@attribute [StreamRendering]
+
+@* @rendermode InteractiveAuto *@
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+@if (SelectedExpense.IsLoading)
+{
+    <p>Loading...</p>
+}
+else if (SelectedExpense.IsSuccess)
+{
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Expense Details</h1>
+        <button class="btn btn-danger" @onclick="SubmitDelete">Delete</button>
+    </div>
+
+    <ExpenseDetailForm SelectedExpense="@SelectedExpense.Data" />
+}
+else
+{
+    <p>@SelectedExpense.ErrorMessage</p>
+}

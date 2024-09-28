@@ -12,6 +12,7 @@ public class GetExpenseByIdQueryHandler(ApplicationDbContext context)
     public async Task<Expense?> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
     {
         return await context.Expenses
+            .Include(e => e.Tags)
             .FirstOrDefaultAsync(e => e.Id == request.ExpenseId);
     }
 }

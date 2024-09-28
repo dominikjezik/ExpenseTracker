@@ -12,7 +12,7 @@ public class ExpenseFormDTO
     /// The date of the expense.
     /// </summary>
     [Required]
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     
     /// <summary>
     /// The amount of the expense.
@@ -34,7 +34,7 @@ public class ExpenseFormDTO
     /// <summary>
     /// Selected TagIds of the expense.
     /// </summary>
-    public IEnumerable<Guid> TagIds { get; set; } = new List<Guid>();
+    public List<Guid> TagIds { get; set; } = new();
 }
 
 /// <summary>
@@ -48,17 +48,26 @@ public static class ExpenseFormDTOExtensions
         {
             targetExpense = new Expense();
         }
-        
-        var tags = form.TagIds
-            .Select(tagId => new ExpenseExpenseTag { ExpenseTagId = tagId })
-            .ToList();
-        
+
         targetExpense.Amount = form.Amount;
         targetExpense.CreatedAt = form.CreatedAt;
         targetExpense.Description = form.Description;
         targetExpense.CategoryId = form.CategoryId;
-        targetExpense.Tags = tags;
-        
+
+        targetExpense.Tags = form.TagIds.Select(tagId => new ExpenseExpenseTag { ExpenseTagId = tagId }).ToList();
+
         return targetExpense;
+    }
+    
+    public static ExpenseFormDTO ToForm(this ExpenseDTO expense)
+    {
+        return new ExpenseFormDTO
+        {
+            CreatedAt = expense.CreatedAt,
+            Amount = expense.Amount,
+            Description = expense.Description,
+            CategoryId = expense.Category?.CategoryId,
+            TagIds = expense.Tags.Select(t => t.TagId).ToList()
+        };
     }
 }

@@ -1,0 +1,49 @@
+﻿@page "/expenses"
+@attribute [StreamRendering]
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Expenses</h1>
+    <NavLink href="/expenses/create" class="btn btn-primary">Create Expense</NavLink>
+</div>
+
+@if (Expenses.IsLoading)
+{
+    <p>Loading data from API...</p>
+}
+else if (Expenses.IsSuccess)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>CreatedAt</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Expenses.Data)
+            {
+                <tr>
+                    <td>
+                        <NavLink href=@($"/expenses/{expense.ExpenseId}")>@expense.CreatedAt</NavLink>
+                    </td>
+                    <td>@expense.Description</td>
+                    <td>@expense.Amount</td>
+                    <td>@expense.Category?.Name</td>
+                    <td>
+                        @foreach (var tag in expense.Tags)
+                        {
+                            <span class="badge rounded-pill bg-secondary me-1">@tag.Name</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>@Expenses.ErrorMessage</p>
+}

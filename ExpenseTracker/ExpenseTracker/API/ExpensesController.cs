@@ -12,7 +12,7 @@ public class ExpensesController(ILogger<ExpensesController> logger, IMediator me
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<ExpenseDTO>>> GetExpenses(int page = 1, int pageSize = 10)
+    public async Task<ActionResult<IEnumerable<ExpenseDTO>>> GetExpenses(int page = 1, int pageSize = 100)
     {
         try
         {

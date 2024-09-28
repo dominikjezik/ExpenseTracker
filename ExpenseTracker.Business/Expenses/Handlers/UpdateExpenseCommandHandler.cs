@@ -15,7 +15,6 @@ public class UpdateExpenseCommandHandler(ApplicationDbContext context)
             throw new UnauthorizedAccessException("You are not authorized to update this expense.");
         }
         
-        // TODO: Skontrolovať či odoberanie a pridávanie tagov funguje správne. (či sa maže v DB asociačná entita)
         var updatedExpense = request.ExpenseForm.ToExpense(request.ExistingExpense);
         
         context.Expenses.Update(updatedExpense);

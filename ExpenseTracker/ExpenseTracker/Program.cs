@@ -1,3 +1,5 @@
+using ExpenseTracker.Business.Client.Abstraction;
+using ExpenseTracker.Business.Client.Services;
 using ExpenseTracker.Business.Expenses.Queries;
 using ExpenseTracker.Components;
 using ExpenseTracker.Components.Account;
@@ -47,6 +49,37 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 // Seed database
 // builder.Services.AddTransient<DatabaseSeeder>();
+
+// TODO: Refactor this code
+builder.Services.AddHttpClient<IExpensesService, ExpensesService>(client =>
+{
+    var apiUrl = "https://localhost:7290";
+    /*
+    var apiUrl = builder.Configuration["ApiUrl"] ??
+                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
+                 */
+    client.BaseAddress = new Uri(apiUrl);
+});
+
+builder.Services.AddHttpClient<IExpenseCategoriesService, ExpenseCategoriesService>(client =>
+{
+    var apiUrl = "https://localhost:7290";
+    /*
+    var apiUrl = builder.Configuration["ApiUrl"] ??
+                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
+                 */
+    client.BaseAddress = new Uri(apiUrl);
+});
+
+builder.Services.AddHttpClient<IExpenseTagsService, ExpenseTagsService>(client =>
+{
+    var apiUrl = "https://localhost:7290";
+    /*
+    var apiUrl = builder.Configuration["ApiUrl"] ??
+                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
+                 */
+    client.BaseAddress = new Uri(apiUrl);
+});
 
 var app = builder.Build();
 

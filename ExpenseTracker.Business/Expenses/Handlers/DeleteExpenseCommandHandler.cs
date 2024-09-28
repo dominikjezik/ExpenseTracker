@@ -13,9 +13,23 @@ public class DeleteExpenseCommandHandler(ApplicationDbContext context)
         {
             throw new UnauthorizedAccessException("You are not authorized to delete this expense.");
         }
-        
-        context.Expenses.Remove(request.Expense);
-        
-        await context.SaveChangesAsync();
+
+        // Transaction is needed because we deleted cascading tags (error with cycles or multiple cascade paths) 
+        var transaction = await context.Database.BeginTransactionAsync();
+
+        try
+        {
+            context.ExpenseExpenseTags.RemoveRange(request.Expense.Tags);
+            context.Expenses.Remove(request.Expense);
+
+            await context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 }
