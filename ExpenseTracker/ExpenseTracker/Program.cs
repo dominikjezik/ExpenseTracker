@@ -1,3 +1,4 @@
+using ExpenseTracker.Business.Expenses.Queries;
 using ExpenseTracker.Components;
 using ExpenseTracker.Components.Account;
 using ExpenseTracker.Data.DbContext;
@@ -35,6 +36,13 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add MediatR
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<GetExpensesQuery>());
+
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 // Seed database
@@ -47,6 +55,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
     app.UseMigrationsEndPoint();
+    
+    app.UseSwagger();
+    app.UseSwaggerUI();
     
     // Seed database
     // using var serviceScope = app.Services.CreateScope();
@@ -72,5 +83,7 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+app.MapControllers();
 
 app.Run();

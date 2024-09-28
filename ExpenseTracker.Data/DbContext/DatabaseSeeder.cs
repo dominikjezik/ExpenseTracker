@@ -47,12 +47,12 @@ public class DatabaseSeeder(ApplicationDbContext context)
         // Categories
         var expenseCategories = new List<ExpenseCategory>
         {
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Food" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Transport" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Entertainment" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Health" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Clothes" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other" }
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Food", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Transport", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Entertainment", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Health", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Clothes", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", Description = _faker.Lorem.Sentence() },
         };
         
         context.ExpenseCategories.AddRange(expenseCategories);

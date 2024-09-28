@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ExpenseTracker.Data.Identity;
+﻿using ExpenseTracker.Data.Identity;
 
 namespace ExpenseTracker.Data.Entities.ExpenseAggregate;
 
