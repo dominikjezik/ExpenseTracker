@@ -1,0 +1,40 @@
+<Modal @ref="modal" Title="@(IsCreateForm ? "Create New Category" : $"Update {SelectedCategory!.Name} Category")">
+    <BodyTemplate>
+        <EditForm id="editFormCategoryDetails" Model="@CategoryForm" OnValidSubmit="@OnSubmitForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group mb-2">
+                <label for="Name">Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="CategoryForm.Name"/>
+                <ValidationMessage For="@(() => CategoryForm.Name)"/>
+            </div>
+            <div class="form-group mb-2">
+                <label for="Description">Description</label>
+                <InputText id="Description" class="form-control" @bind-Value="CategoryForm.Description"/>
+                <ValidationMessage For="@(() => CategoryForm.Description)"/>
+            </div>
+        </EditForm>
+    </BodyTemplate>
+    <FooterTemplate>
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div>
+                @if (!IsCreateForm)
+                {
+                    <Button Color="ButtonColor.Danger" @onclick="OnDeleteButtonClick">Delete</Button>
+                }
+            </div>
+            <div>
+                <Button Color="ButtonColor.Secondary" class="me-2" @onclick="HideAsync">Cancel</Button>
+                @if (IsCreateForm)
+                {
+                    <button class="btn btn-success" form="editFormCategoryDetails">Create</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary" form="editFormCategoryDetails">Save</button>
+                }
+            </div>
+        </div>
+    </FooterTemplate>
+</Modal>

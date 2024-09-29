@@ -47,6 +47,7 @@ public class ExpenseCategoriesController(ILogger<ExpensesController> logger, IMe
     
     [HttpPut("{categoryId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> UpdateCategory(Guid categoryId, [FromBody] ExpenseCategoryFormDTO categoryForm)
@@ -64,6 +65,10 @@ public class ExpenseCategoriesController(ILogger<ExpensesController> logger, IMe
             await mediator.Send(new UpdateExpenseCategoryCommand(categoryForm, existingCategory, userId));
             
             return NoContent();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
         }
         catch (Exception ex)
         {

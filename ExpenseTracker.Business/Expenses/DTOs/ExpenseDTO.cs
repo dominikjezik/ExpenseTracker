@@ -18,11 +18,21 @@ public class ExpenseDTO
     /// Date and time of creation of the expense.
     /// </summary>
     public DateTime CreatedAt { get; set; }
+    
+    /// <summary>
+    /// Readable date of creation of the expense.
+    /// </summary>
+    public string DisplayDate => CreatedAt.ToString("dd.MM.yyyy");
 
     /// <summary>
     /// Amount of the expense.
     /// </summary>
     public decimal Amount { get; set; }
+    
+    /// <summary>
+    /// Readable amount of the expense.
+    /// </summary>
+    public string DisplayAmount => Amount.ToString("0.00");
 
     /// <summary>
     /// Description of the expense.

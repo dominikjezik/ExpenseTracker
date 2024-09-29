@@ -14,6 +14,7 @@ public class GetExpenseCategoriesQueryHandler(ApplicationDbContext context)
     {
         return await context.ExpenseCategories
             .Where(ec => ec.UserId == request.UserId)
+            .OrderBy(ec => ec.Name)
             .Select(ec => ec.ToDTO())
             .ToListAsync();
     }

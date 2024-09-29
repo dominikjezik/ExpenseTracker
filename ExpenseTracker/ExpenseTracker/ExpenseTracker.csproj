@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor.Bootstrap" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.0" />
     <ProjectReference Include="..\..\ExpenseTracker.Business\ExpenseTracker.Business.csproj" />
     <ProjectReference Include="..\..\ExpenseTracker.Data\ExpenseTracker.Data.csproj" />

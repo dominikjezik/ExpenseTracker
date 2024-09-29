@@ -35,4 +35,13 @@ public static class ExpenseCategoryFormDTOExtensions
 
         return category;
     }
+    
+    public static ExpenseCategoryFormDTO ToForm(this ExpenseCategoryDTO category)
+    {
+        return new ExpenseCategoryFormDTO
+        {
+            Name = category.Name,
+            Description = category.Description
+        };
+    }
 }

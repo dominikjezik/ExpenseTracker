@@ -11,12 +11,23 @@ public class GetExpenseItemByIdQueryHandler(ApplicationDbContext context)
 {
     public async Task<ExpenseDTO?> Handle(GetExpenseItemByIdQuery request, CancellationToken cancellationToken)
     {
-        return await context.Expenses
-            .Where(e => e.Id == request.ExpenseId/* && e.UserId == request.UserId*/)
+        var expense = await context.Expenses
+            .Where(e => e.Id == request.ExpenseId)
             .Include(e => e.Category)
             .Include(e => e.Tags)
                 .ThenInclude(eet => eet.ExpenseTag)
-            .Select(e => e.ToDTO())
             .FirstOrDefaultAsync();
+
+        if (expense == null)
+        {
+            return null;
+        }
+        
+        if (expense.UserId != request.UserId)
+        {
+            throw new UnauthorizedAccessException("You are not authorized to view this expense.");
+        }
+
+        return expense.ToDTO();
     }
 }

@@ -17,9 +17,17 @@ public class ExpenseFormDTO
     /// <summary>
     /// The amount of the expense.
     /// </summary>
+    private decimal _amount;
+    
+    /// <summary>
+    /// The amount of the expense (rounded to 2 decimal places).
+    /// </summary>
     [Required]
     [Range(0.01, double.MaxValue, ErrorMessage = "The amount must be more than 0.")]
-    public decimal Amount { get; set; }
+    public decimal Amount {
+        get => _amount;
+        set => _amount = Math.Round(value, 2);
+    }
     
     /// <summary>
     /// Description of the expense.
@@ -34,7 +42,7 @@ public class ExpenseFormDTO
     /// <summary>
     /// Selected TagIds of the expense.
     /// </summary>
-    public List<Guid> TagIds { get; set; } = new();
+    public HashSet<Guid> TagIds { get; set; } = new();
 }
 
 /// <summary>
@@ -67,7 +75,7 @@ public static class ExpenseFormDTOExtensions
             Amount = expense.Amount,
             Description = expense.Description,
             CategoryId = expense.Category?.CategoryId,
-            TagIds = expense.Tags.Select(t => t.TagId).ToList()
+            TagIds = expense.Tags.Select(t => t.TagId).ToHashSet()
         };
     }
 }

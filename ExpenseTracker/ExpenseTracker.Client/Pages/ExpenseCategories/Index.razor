@@ -1,0 +1,41 @@
+@page "/expenses/categories"
+@using BlazorBootstrap
+@using ExpenseTracker.Business.ExpenseCategories.DTOs
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<ExpenseCategoryDetailModal @ref="createCategoryModal" OnSuccess="FetchCategories" OnDelete="DeleteCategory" />
+
+<ConfirmDialog @ref="deleteDialog" />
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">My Expense Categories</h1>
+    <Button Color="ButtonColor.Success" @onclick="OnCreateButtonClick">New Category</Button>
+</div>
+
+@if (Categories.IsLoading)
+{
+    <p>Loading data from API...</p>
+}
+else if (Categories.IsSuccess)
+{
+    <Grid TItem="ExpenseCategoryDTO" 
+          Data="Categories.Data"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick"
+          Class="table table-hover table-bordered table-striped">
+        <GridColumns>
+            <GridColumn TItem="ExpenseCategoryDTO" HeaderText="Name" PropertyName="@nameof(ExpenseCategoryDTO.Name)" SortKeySelector="e => e.Name">
+                @context.Name
+            </GridColumn>
+            <GridColumn TItem="ExpenseCategoryDTO" HeaderText="Description" PropertyName="@nameof(ExpenseCategoryDTO.Description)" SortKeySelector="e => e.Description ?? string.Empty">
+                @context.Description
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+}
+else
+{
+    <p>@Categories.ErrorMessage</p>
+}

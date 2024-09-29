@@ -1,9 +1,12 @@
 ﻿@page "/expenses"
-@attribute [StreamRendering]
+@using ExpenseTracker.Business.Expenses.DTOs
 
-<div class="d-flex justify-content-between align-items-center">
+@*@attribute [StreamRendering]*@
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<div class="d-flex justify-content-between align-items-center mb-3">
     <h1>Expenses</h1>
-    <NavLink href="/expenses/create" class="btn btn-primary">Create Expense</NavLink>
+    <NavLink href="/expenses/create" class="btn btn-success">Create Expense</NavLink>
 </div>
 
 @if (Expenses.IsLoading)
@@ -12,36 +15,33 @@
 }
 else if (Expenses.IsSuccess)
 {
-    <table>
-        <thead>
-            <tr>
-                <th>CreatedAt</th>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Tags</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var expense in Expenses.Data)
-            {
-                <tr>
-                    <td>
-                        <NavLink href=@($"/expenses/{expense.ExpenseId}")>@expense.CreatedAt</NavLink>
-                    </td>
-                    <td>@expense.Description</td>
-                    <td>@expense.Amount</td>
-                    <td>@expense.Category?.Name</td>
-                    <td>
-                        @foreach (var tag in expense.Tags)
-                        {
-                            <span class="badge rounded-pill bg-secondary me-1">@tag.Name</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <Grid TItem="ExpenseDTO" 
+          Data="Expenses.Data"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick"
+          Class="table table-hover table-bordered table-striped">
+        <GridColumns>
+            <GridColumn TItem="ExpenseDTO" HeaderText="Date" PropertyName="@nameof(ExpenseDTO.CreatedAt)" SortKeySelector="e => e.CreatedAt">
+                @context.DisplayDate
+            </GridColumn>
+            <GridColumn TItem="ExpenseDTO" HeaderText="Description" PropertyName="@nameof(ExpenseDTO.Description)" SortKeySelector="e => e.Description ?? string.Empty">
+                @context.Description
+            </GridColumn>
+            <GridColumn TItem="ExpenseDTO" HeaderText="€" PropertyName="@nameof(ExpenseDTO.Amount)" SortKeySelector="e => e.Amount" TextAlignment="Alignment.End">
+                @context.DisplayAmount
+            </GridColumn>
+            <GridColumn TItem="ExpenseDTO" HeaderText="Category" PropertyName="@nameof(ExpenseDTO.Category)" SortKeySelector="e => e.Category == null ? string.Empty : e.Category.Name">
+                @context.Category?.Name
+            </GridColumn>
+            <GridColumn TItem="ExpenseDTO" HeaderText="Tags" PropertyName="@nameof(ExpenseDTO.Tags)">
+                @foreach (var tag in context.Tags)
+                {
+                    <Badge Color="BadgeColor.Primary" IndicatorType="BadgeIndicatorType.RoundedPill" Class="me-1">@tag.Name</Badge>
+                }
+            </GridColumn>
+        </GridColumns>
+    </Grid>
 }
 else
 {

@@ -45,6 +45,8 @@ builder.Services.AddSwaggerGen();
 // Add MediatR
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<GetExpensesQuery>());
 
+builder.Services.AddBlazorBootstrap();
+
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 // Seed database

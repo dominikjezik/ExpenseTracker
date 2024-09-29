@@ -14,7 +14,7 @@ public class ExpensesService(HttpClient httpClient) : IExpensesService
        
         if (!response.IsSuccessStatusCode)
         {
-            return Result<List<ExpenseDTO>>.Error("Failed to get expenses");
+            return Result<List<ExpenseDTO>>.Error("Failed to get expenses.");
         }
         
         var expenses = await response.Content.ReadFromJsonAsync<List<ExpenseDTO>>();
@@ -28,17 +28,17 @@ public class ExpensesService(HttpClient httpClient) : IExpensesService
         
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
-            return Result<ExpenseDTO>.Error("Expense not found");
+            return Result<ExpenseDTO>.Error("Expense not found.");
         }
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
-            return Result<ExpenseDTO>.Error("You are not authorized to view this expense");
+            return Result<ExpenseDTO>.Error("You are not authorized to view this expense.");
         }
         
         if (!response.IsSuccessStatusCode)
         {
-            return Result<ExpenseDTO>.Error("Failed to get expense");
+            return Result<ExpenseDTO>.Error("Failed to get expense.");
         }
         
         var expense = await response.Content.ReadFromJsonAsync<ExpenseDTO>();
@@ -52,7 +52,7 @@ public class ExpensesService(HttpClient httpClient) : IExpensesService
         
         if (!response.IsSuccessStatusCode)
         {
-            return Result<ExpenseDTO>.Error("Failed to create expense");
+            return Result<ExpenseDTO>.Error("Failed to create expense.");
         }
         
         var expense = await response.Content.ReadFromJsonAsync<ExpenseDTO>();
@@ -64,9 +64,19 @@ public class ExpensesService(HttpClient httpClient) : IExpensesService
     {
         var response = await httpClient.PutAsJsonAsync($"api/expenses/{expenseId}", expenseForm);
         
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return Result<object>.Error("Expense not found.");
+        }
+
+        if (response.StatusCode == HttpStatusCode.Forbidden)
+        {
+            return Result<object>.Error("You are not authorized to update this expense.");
+        }
+        
         if (!response.IsSuccessStatusCode)
         {
-            return Result<object>.Error("Failed to update expense");
+            return Result<object>.Error("Failed to update expense.");
         }
         
         return Result<object>.Success(new object());
@@ -78,17 +88,17 @@ public class ExpensesService(HttpClient httpClient) : IExpensesService
         
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
-            return Result<object>.Error("Expense not found");
+            return Result<object>.Error("Expense not found.");
         }
 
         if (response.StatusCode == HttpStatusCode.Forbidden)
         {
-            return Result<object>.Error("You are not authorized to delete this expense");
+            return Result<object>.Error("You are not authorized to delete this expense.");
         }
         
         if (!response.IsSuccessStatusCode)
         {
-            return Result<object>.Error("Failed to delete expense");
+            return Result<object>.Error("Failed to delete expense.");
         }
         
         return Result<object>.Success(new object());

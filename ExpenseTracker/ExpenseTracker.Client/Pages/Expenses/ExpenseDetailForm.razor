@@ -1,0 +1,54 @@
+﻿<EditForm Model="@ExpenseForm" OnValidSubmit="@OnSubmitForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-2">
+        <label for="CreatedAt">Date</label>
+        <InputDate id="CreatedAt" class="form-control mt-1" @bind-Value="ExpenseForm.CreatedAt" />
+        <ValidationMessage For="@(() => ExpenseForm.CreatedAt)" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="Amount">Amount</label>
+        <InputNumber id="Amount" class="form-control mt-1" step=".01" @bind-Value="ExpenseForm.Amount" />
+        <ValidationMessage For="@(() => ExpenseForm.Amount)" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="Description">Description</label>
+        <InputText id="Description" class="form-control mt-1" @bind-Value="ExpenseForm.Description" />
+        <ValidationMessage For="@(() => ExpenseForm.Description)" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="CategoryId">Category</label>
+        <InputSelect id="CategoryId" class="form-control mt-1" @bind-Value="ExpenseForm.CategoryId">
+            <option value="">Not selected</option>
+            @foreach (var category in Categories)
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => ExpenseForm.CategoryId)" />
+    </div>
+    
+    <div class="form-group mb-2">
+        <p class="mb-1">Tags</p>
+        @foreach (var tag in Tags)
+        {
+            <Badge Color="IsActiveTag(tag.TagId) ? BadgeColor.Primary : BadgeColor.Light" 
+                   IndicatorType="BadgeIndicatorType.RoundedPill" Class="me-1 mb-1 px-3 py-2"
+                   Style="cursor: pointer; user-select: none;"
+                   @onclick="()=>TagClicked(tag.TagId)">@tag.Name</Badge>
+        }
+    </div>
+
+    @if (IsCreateForm)
+    {
+        <Button Color="ButtonColor.Success" Type="ButtonType.Submit" class="mt-2">Create Expense</Button>
+    }
+    else
+    {
+        <Button Color="ButtonColor.Primary" Type="ButtonType.Submit" class="mt-2">Save Expense</Button>
+    }
+</EditForm>

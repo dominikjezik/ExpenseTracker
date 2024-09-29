@@ -45,6 +45,10 @@ public class ExpensesController(ILogger<ExpensesController> logger, IMediator me
 
             return Ok(expense);
         }
+        catch (UnauthorizedAccessException)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "An exception was thrown while fetching expense.");
@@ -72,6 +76,7 @@ public class ExpensesController(ILogger<ExpensesController> logger, IMediator me
     
     [HttpPut("{expenseId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> UpdateExpense(Guid expenseId, [FromBody] ExpenseFormDTO expenseForm)
@@ -89,6 +94,10 @@ public class ExpensesController(ILogger<ExpensesController> logger, IMediator me
             await mediator.Send(new UpdateExpenseCommand(expenseForm, existingExpense, userId));
             
             return NoContent();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
         }
         catch (Exception ex)
         {

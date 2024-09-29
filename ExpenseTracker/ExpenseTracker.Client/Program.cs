@@ -10,6 +10,8 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 
+builder.Services.AddBlazorBootstrap();
+
 // TODO: Refactor this code
 builder.Services.AddHttpClient<IExpensesService, ExpensesService>(client =>
 {
