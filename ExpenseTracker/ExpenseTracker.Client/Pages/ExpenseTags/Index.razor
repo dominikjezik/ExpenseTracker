@@ -1,0 +1,37 @@
+@page "/expenses/tags"
+@using ExpenseTracker.Business.ExpenseTags.DTOs
+
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<ExpenseTagDetailModal @ref="tagDetailModal" OnSuccess="FetchTags" OnDelete="DeleteTag" />
+
+<ConfirmDialog @ref="deleteDialog" />
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Expense Tags</h1>
+    <Button Color="ButtonColor.Success" @onclick="OnCreateButtonClick">New Tag</Button>
+</div>
+
+@if (Tags.IsLoading)
+{
+    <p>Loading data from API...</p>
+}
+else if (Tags.IsSuccess)
+{
+    <Grid TItem="ExpenseTagDTO" 
+          Data="Tags.Data"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick"
+          Class="table table-hover table-bordered table-striped">
+        <GridColumns>
+            <GridColumn TItem="ExpenseTagDTO" HeaderText="Name" PropertyName="@nameof(ExpenseTagDTO.Name)" SortKeySelector="e => e.Name">
+                @context.Name
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+}
+else
+{
+    <p>@Tags.ErrorMessage</p>
+}

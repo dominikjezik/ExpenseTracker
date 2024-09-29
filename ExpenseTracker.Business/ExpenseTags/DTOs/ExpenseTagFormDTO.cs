@@ -29,4 +29,12 @@ public static class ExpenseTagFormDTOExtensions
 
         return tag;
     }
+    
+    public static ExpenseTagFormDTO ToForm(this ExpenseTagDTO tag)
+    {
+        return new ExpenseTagFormDTO
+        {
+            Name = tag.Name
+        };
+    }
 }

@@ -2,10 +2,10 @@
 @using ExpenseTracker.Business.Expenses.DTOs
 
 @*@attribute [StreamRendering]*@
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Expenses</h1>
+    <h1 class="mb-0">Expenses</h1>
     <NavLink href="/expenses/create" class="btn btn-success">Create Expense</NavLink>
 </div>
 

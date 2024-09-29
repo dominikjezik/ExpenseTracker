@@ -2,9 +2,57 @@
 
 @inject NavigationManager NavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
+<div class="nav-header navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">ExpenseTracker</a>
+        <NavLink class="navbar-brand w-100 d-flex justify-content-center align-items-center" href="/">
+            <svg width="30" height="30" viewBox="0 0 460 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_11_6)">
+                    <g filter="url(#filter0_d_11_6)">
+                        <path d="M332.595 44.5547C329.653 42.2092 325.354 42.6937 323.013 45.6347L260.4 124.295H225.699L301.689 28.8284C313.394 14.1235 334.887 11.701 349.601 23.4283L419.596 79.2164C433.49 90.2898 436.285 109.923 426.701 124.295H391.145L403.49 110.042C406.005 107.139 405.597 102.739 402.59 100.343L368.527 73.1932L328.162 124.299H293.564L347.295 56.2706L332.595 44.5547ZM146.695 83.6963C124.16 83.6963 105.892 101.874 105.892 124.298V320.547C105.892 354.183 133.294 381.45 167.097 381.45H398.316C432.119 381.45 459.521 354.183 459.521 320.547V198.741C459.521 165.105 432.119 137.838 398.316 137.838L146.695 137.832C139.184 137.832 133.094 131.773 133.094 124.298C133.094 116.824 139.184 110.764 146.695 110.764H208.988L230.699 83.6963H146.695Z" fill="url(#paint0_linear_11_6)"/>
+                    </g>
+                    <path d="M332.582 44.5693C329.636 42.2227 325.333 42.7074 322.989 45.6499L260.312 124.351H225.574L301.644 28.835C313.361 14.1226 334.876 11.6988 349.605 23.4321L419.673 79.2488C433.581 90.328 436.379 109.971 426.785 124.351H391.193L403.55 110.09C406.068 107.186 405.659 102.783 402.649 100.386L368.551 73.2226L328.144 124.354H293.51L347.297 56.2913L332.582 44.5693Z" fill="#2A7CD2"/>
+                    <g filter="url(#filter1_d_11_6)">
+                        <path d="M0 230.142C0 216.871 10.7804 206.113 24.0788 206.113H214.301C227.599 206.113 238.38 216.871 238.38 230.142V419.971C238.38 433.242 227.599 444 214.301 444H24.0788C10.7804 444 0 433.242 0 419.971V230.142Z" fill="url(#paint1_linear_11_6)"/>
+                    </g>
+                    <path d="M103.725 371.43H156.621V391.3H79.2958V261.275H155.852V281.145H103.725V316.449H150.081V336.126H103.725V371.43Z" fill="white"/>
+                    <path d="M350.477 246.992H391.258C398.766 246.992 404.852 253.056 404.852 260.536C404.852 268.017 398.766 274.081 391.258 274.081H350.477C342.97 274.081 336.884 268.017 336.884 260.536C336.884 253.056 342.97 246.992 350.477 246.992Z" fill="white"/>
+                </g>
+                <defs>
+                    <filter id="filter0_d_11_6" x="101.892" y="16" width="361.629" height="373.45" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="4"/>
+                        <feGaussianBlur stdDeviation="2"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_11_6"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_11_6" result="shape"/>
+                    </filter>
+                    <filter id="filter1_d_11_6" x="-8" y="198.113" width="254.38" height="253.887" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset/>
+                        <feGaussianBlur stdDeviation="4"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_11_6"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_11_6" result="shape"/>
+                    </filter>
+                    <linearGradient id="paint0_linear_11_6" x1="435.465" y1="79.7133" x2="145.745" y2="361.178" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#2A97E1"/>
+                        <stop offset="1" stop-color="#3CCAF4"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_11_6" x1="0" y1="206.113" x2="237.887" y2="444.492" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#3F90F0"/>
+                        <stop offset="1" stop-color="#1F6AC2"/>
+                    </linearGradient>
+                    <clipPath id="clip0_11_6">
+                        <rect width="460" height="460" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+            <span class="ms-2">Expense Tracker</span>
+        </NavLink>
     </div>
 </div>
 
@@ -14,30 +62,48 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+                </svg>
+                Dashboard
             </NavLink>
         </div>
         
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="expenses" Match="NavLinkMatch.All">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Expenses
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                    <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+                </svg>
+                Expenses
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="expenses/create" Match="NavLinkMatch.All">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Create Expense
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+                Create Expense
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="expenses/categories">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Expense Categories
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2" viewBox="0 0 16 16">
+                    <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5z"/>
+                </svg>
+                Expense Categories
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="expenses/tags">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Expense Tags
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                    <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+                    <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+                </svg>
+                Expense Tags
             </NavLink>
         </div>
 
@@ -68,8 +134,8 @@
                 </div>
                 <div class="nav-item px-3">
                     <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                        <AntiforgeryToken/>
+                        <input type="hidden" name="ReturnUrl" value="@currentUrl"/>
                         <button type="submit" class="nav-link">
                             <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
                         </button>
@@ -79,12 +145,20 @@
             <NotAuthorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                        Register
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16" style="transform: translateX(-5px);">
+                            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
+                            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                        </svg>
+                        Login
                     </NavLink>
                 </div>
             </NotAuthorized>

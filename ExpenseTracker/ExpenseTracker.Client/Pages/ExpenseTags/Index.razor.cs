@@ -1,50 +1,50 @@
 using BlazorBootstrap;
 using ExpenseTracker.Business.Client.Abstraction;
 using ExpenseTracker.Business.Client.Helpers;
-using ExpenseTracker.Business.ExpenseCategories.DTOs;
+using ExpenseTracker.Business.ExpenseTags.DTOs;
 using Microsoft.AspNetCore.Components;
 
-namespace ExpenseTracker.Client.Pages.ExpenseCategories;
+namespace ExpenseTracker.Client.Pages.ExpenseTags;
 
 public partial class Index
 {
-    private ExpenseCategoryDetailModal categoryDetailModal = default!;
+    private ExpenseTagDetailModal tagDetailModal = default!;
     
     private ConfirmDialog deleteDialog = default!;
 
-    private Result<List<ExpenseCategoryDTO>> Categories { get; set; } = Result<List<ExpenseCategoryDTO>>.Loading();
+    private Result<List<ExpenseTagDTO>> Tags { get; set; } = Result<List<ExpenseTagDTO>>.Loading();
 
     [Inject] 
-    private IExpenseCategoriesService CategoriesService { get; set; } = default!;
+    private IExpenseTagsService TagsService { get; set; } = default!;
 
     [Inject] 
     private ToastService ToastService { get; set; } = default!;
-
+    
     protected override async Task OnInitializedAsync()
     {
-        await FetchCategories();
+        await FetchTags();
     }
 
-    private async Task FetchCategories()
+    private async Task FetchTags()
     {
-        Categories = await CategoriesService.GetCategories();
+        Tags = await TagsService.GetTags();
     }
 
     private async Task OnCreateButtonClick()
     {
-        await categoryDetailModal.ShowAsync();
+        await tagDetailModal.ShowAsync();
     }
 
-    private async Task OnRowClick(GridRowEventArgs<ExpenseCategoryDTO> args)
+    private async Task OnRowClick(GridRowEventArgs<ExpenseTagDTO> args)
     {
-        await categoryDetailModal.ShowAsync(args.Item);
+        await tagDetailModal.ShowAsync(args.Item);
     }
 
-    private async Task DeleteCategory(ExpenseCategoryDTO category)
+    private async Task DeleteTag(ExpenseTagDTO tag)
     {
         var confirmation = await deleteDialog.ShowAsync(
-            title: $"Delete Category \"{category.Name}\"",
-            message1: "Are you sure you want to delete this category?",
+            title: $"Delete Tag \"{tag.Name}\"",
+            message1: "Are you sure you want to delete this tag?",
             confirmDialogOptions: new ConfirmDialogOptions
             {
                 YesButtonText = "Delete",
@@ -55,16 +55,16 @@ public partial class Index
         
         if (confirmation)
         {
-            var deleteResult = await CategoriesService.DeleteCategory(category.CategoryId);
+            var deleteResult = await TagsService.DeleteTag(tag.TagId);
 
             if (deleteResult.IsSuccess)
             {
                 ToastService.Notify(new() {
                     Type = ToastType.Success,
-                    Message = $"Expense Category \"{category.Name} \" successfully deleted!"
+                    Message = $"Expense Tag \"{tag.Name} \" successfully deleted!"
                 });
                 
-                await FetchCategories();
+                await FetchTags();
             }
             else
             {
