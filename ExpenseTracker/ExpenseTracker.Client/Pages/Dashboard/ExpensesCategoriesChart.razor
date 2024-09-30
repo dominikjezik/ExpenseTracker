@@ -1,0 +1,89 @@
+@using ExpenseTracker.Business.Statistics.DTOs
+<DoughnutChart @ref="doughnutChart" Width="100" WidthUnit="Unit.Percentage" />
+
+@code {
+    // Inspired by example from documentation where is shown how to use BlazorBootstrap.Charts API
+    // https://demos.blazorbootstrap.com/charts/doughnut-chart
+    
+    [Parameter] 
+    public List<CategoryExpenseDataItemDTO> Data { get; set; } = new();
+    
+    private DoughnutChart doughnutChart = default!;
+    private DoughnutChartOptions doughnutChartOptions = default!;
+    private ChartData chartData = default!;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (Data.Count == 0)
+        {
+            chartData = new ChartData
+            {
+                Labels = ["No data"],
+                Datasets =
+                [
+                    new DoughnutChartDataset
+                    {
+                        Label = "No data",
+                        Data = [0.1],
+                        BackgroundColor = ["#c7c7c7"],
+                        BorderColor = ["#c7c7c7"],
+                        BorderWidth = [0]
+                    }
+                ]
+            };
+        }
+        else
+        {
+            chartData = new ChartData
+            {
+                Labels = GetDataLabels(), 
+                Datasets = GetDataSets()
+            };
+        }
+
+        doughnutChartOptions = new();
+        doughnutChartOptions.Responsive = true;
+        doughnutChartOptions.Plugins.Title!.Text = "Expenses by Categories";
+        doughnutChartOptions.Plugins.Title.Display = true;
+    }
+    
+    private List<string> GetDataLabels()
+    {
+        var labels = new List<string>();
+        
+        foreach (var item in Data)
+        {
+            labels.Add(item.Category == string.Empty ? "Not specified" : item.Category);
+        }
+
+        return labels;
+    }
+    
+    private List<IChartDataset> GetDataSets()
+    {
+        var datasets = new List<IChartDataset>();
+        
+        var data = Data.Select(x => (double?)x.Expense).ToList();
+        var colors = data.Select((x, i) => ColorUtility.CategoricalTwelveColors[i % ColorUtility.CategoricalTwelveColors.Length].ToColor().ToRgbString()).ToList();
+        
+        datasets.Add(new DoughnutChartDataset
+        {
+            Label = "Amount",
+            Data = data,
+            BackgroundColor = colors,
+            BorderColor = colors,
+            BorderWidth = [0]
+        });
+
+        return datasets;
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await doughnutChart.InitializeAsync(chartData, doughnutChartOptions);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

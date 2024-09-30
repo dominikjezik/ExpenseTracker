@@ -1,0 +1,56 @@
+using ExpenseTracker.Business.Client.Abstraction;
+using ExpenseTracker.Business.Client.Helpers;
+using ExpenseTracker.Business.Statistics.DTOs;
+using Microsoft.AspNetCore.Components;
+
+namespace ExpenseTracker.Client.Pages.Dashboard;
+
+public partial class Index
+{
+    private Result<List<MonthDataItemDTO>> YearData { get; set; } = Result<List<MonthDataItemDTO>>.Loading();
+    private Result<List<CategoryExpenseDataItemDTO>> CategoriesExpensesData { get; set; } = Result<List<CategoryExpenseDataItemDTO>>.Loading();
+    private Result<BalanceDTO> BalanceData { get; set; } = Result<BalanceDTO>.Loading();
+    
+    private DateTime fromDate = new(DateTime.Now.Year, DateTime.Now.Month, 1);
+    
+    private DateTime toDate = new(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+    
+    [Inject]
+    private IStatisticsService StatisticsService { get; set; } = default!;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        toDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+        
+        var yearDataTask = StatisticsService.GetYearStatistics();
+        var categoriesExpensesDataTask = StatisticsService.GetCategoriesExpenses(fromDate, toDate);
+        var balanceDataTask = StatisticsService.GetBalance(fromDate, toDate);
+        
+        await Task.WhenAll(yearDataTask, categoriesExpensesDataTask, balanceDataTask);
+        
+        YearData = yearDataTask.Result;
+        CategoriesExpensesData = categoriesExpensesDataTask.Result;
+        BalanceData = balanceDataTask.Result;
+    }
+    private async Task OnFromDateChanged(DateTime date)
+    {
+        fromDate = date;
+        await TimeIntervalChanged();
+    }
+    
+    private async Task OnToDateChanged(DateTime date)
+    {
+        toDate = date;
+        await TimeIntervalChanged();
+    }
+    
+    private async Task TimeIntervalChanged()
+    {
+        CategoriesExpensesData = Result<List<CategoryExpenseDataItemDTO>>.Loading();
+        BalanceData = Result<BalanceDTO>.Loading();
+        
+        CategoriesExpensesData = await StatisticsService.GetCategoriesExpenses(fromDate, toDate);
+        BalanceData = await StatisticsService.GetBalance(fromDate, toDate);
+    }
+}

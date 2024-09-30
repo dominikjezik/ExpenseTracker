@@ -1,0 +1,85 @@
+@using ExpenseTracker.Business.Statistics.DTOs
+<BarChart @ref="barChart" Width="100" WidthUnit="Unit.Percentage" />
+
+@code {
+    // Inspired by example from documentation where is shown how to use BlazorBootstrap.Charts API
+    // https://demos.blazorbootstrap.com/charts/bar-chart
+    
+    [Parameter] 
+    public List<MonthDataItemDTO> Data { get; set; } = new();
+    
+    private BarChart barChart = default!;
+    private BarChartOptions barChartOptions = default!;
+    private ChartData chartData = default!;
+
+    private string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    
+    protected override async Task OnInitializedAsync()
+    {
+        chartData = new ChartData
+        {
+            Labels = GetDataLabels(), 
+            Datasets = GetDataSets()
+        };
+        
+        barChartOptions = new BarChartOptions
+        {
+            Responsive = true, 
+            Interaction = new Interaction { Mode = InteractionMode.Index }
+        };
+    }
+    
+    private List<string> GetDataLabels()
+    {
+        var labels = new List<string>();
+        
+        foreach (var item in Data)
+        {
+            labels.Add(months[item.Month - 1]);
+        }
+
+        return labels;
+    }
+    
+    private List<IChartDataset> GetDataSets()
+    {
+        var datasets = new List<IChartDataset>();
+        
+        var c = ColorUtility.CategoricalTwelveColors[0].ToColor();
+        
+        // Get Incomes data
+        var incomesData = Data.Select(x => (double?)x.Incomes).ToList();
+        datasets.Add(new BarChartDataset
+        {
+            Label = "Incomes",
+            Data = incomesData,
+            BackgroundColor = [c.ToRgbString()],
+            BorderColor = [c.ToRgbString()],
+            BorderWidth = [0]
+        });
+        
+        c = ColorUtility.CategoricalTwelveColors[1].ToColor();
+        
+        // Get Expenses data
+        var expensesData = Data.Select(x => (double?)x.Expenses).ToList();
+        datasets.Add(new BarChartDataset
+        {
+            Label = "Expenses",
+            Data = expensesData,
+            BackgroundColor = [c.ToRgbString()],
+            BorderColor = [c.ToRgbString()],
+            BorderWidth = [0]
+        });
+
+        return datasets;
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await barChart.InitializeAsync(chartData, barChartOptions);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

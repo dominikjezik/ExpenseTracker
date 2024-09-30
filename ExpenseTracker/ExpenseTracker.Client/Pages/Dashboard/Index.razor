@@ -1,0 +1,70 @@
+@page "/"
+
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<PageTitle>Dashboard | Expense Tracker</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Dashboard</h1>
+    <div class="d-flex justify-content-center align-items-center">
+        @if (!CategoriesExpensesData.IsLoading && !BalanceData.IsLoading && !YearData.IsLoading)
+        {
+            <div class="d-flex">
+                <div class="d-flex align-items-center me-2">
+                    <span>Time&nbsp;interval:</span>
+                </div>
+                <InputDate TValue="DateTime" Value="fromDate" ValueChanged="@((DateTime value) => OnFromDateChanged(value))"
+                           ValueExpression="@(() => fromDate)" class="form-control me-2"/>
+
+                <InputDate TValue="DateTime" Value="toDate" ValueChanged="@((DateTime value) => OnToDateChanged(value))"
+                           ValueExpression="@(() => toDate)" class="form-control"/>
+            </div>
+        }
+    </div>
+</div>
+
+@if (CategoriesExpensesData.IsLoading || BalanceData.IsLoading || YearData.IsLoading)
+{
+    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Primary" />
+}
+else
+{
+    <div class="d-flex mb-4">
+        <div class="categories-expenses-chart" style="width: 50%;">
+            @if (CategoriesExpensesData.IsSuccess)
+            {
+                <div style="padding: 0 4rem;">
+                    <ExpensesCategoriesChart Data="CategoriesExpensesData.Data" />
+                </div>
+            }
+            else
+            {
+                <p>@CategoriesExpensesData.ErrorMessage</p>
+            }
+        </div>
+        <div class="categories-expenses-chart" style="width: 50%">
+            @if (BalanceData.IsSuccess)
+            {
+                <div style="padding: 0 4rem;">
+                    <BalanceChart Data="BalanceData.Data" />
+                </div>
+            }
+            else
+            {
+                <p>@BalanceData.ErrorMessage</p>
+            }
+        </div>
+    </div>
+
+    <div class="year-chart mb-4">
+        <h3>Year Overview</h3>
+        @if (YearData.IsSuccess)
+        {
+            <YearChart Data="YearData.Data" />
+        }
+        else
+        {
+            <p>@YearData.ErrorMessage</p>
+        }
+    </div>
+}
