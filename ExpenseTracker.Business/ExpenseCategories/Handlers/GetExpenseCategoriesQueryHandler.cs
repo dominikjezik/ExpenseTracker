@@ -1,6 +1,5 @@
 ﻿using ExpenseTracker.Business.ExpenseCategories.DTOs;
 using ExpenseTracker.Business.ExpenseCategories.Queries;
-using ExpenseTracker.Business.Expenses.DTOs;
 using ExpenseTracker.Data.DbContext;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -198,6 +198,26 @@ namespace ExpenseTracker.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IncomeCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IncomeCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IncomeCategories_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Expenses",
                 columns: table => new
                 {
@@ -221,6 +241,33 @@ namespace ExpenseTracker.Data.Migrations
                         name: "FK_Expenses_ExpenseCategories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "ExpenseCategories",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Incomes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Incomes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Incomes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Incomes_IncomeCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "IncomeCategories",
                         principalColumn: "Id");
                 });
 
@@ -310,6 +357,21 @@ namespace ExpenseTracker.Data.Migrations
                 name: "IX_ExpenseTags_UserId",
                 table: "ExpenseTags",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IncomeCategories_UserId",
+                table: "IncomeCategories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Incomes_CategoryId",
+                table: "Incomes",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Incomes_UserId",
+                table: "Incomes",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -334,6 +396,9 @@ namespace ExpenseTracker.Data.Migrations
                 name: "ExpenseExpenseTags");
 
             migrationBuilder.DropTable(
+                name: "Incomes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -341,6 +406,9 @@ namespace ExpenseTracker.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Expenses");
+
+            migrationBuilder.DropTable(
+                name: "IncomeCategories");
 
             migrationBuilder.DropTable(
                 name: "ExpenseCategories");

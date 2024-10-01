@@ -1,4 +1,5 @@
 using ExpenseTracker.Data.Entities.ExpenseAggregate;
+using ExpenseTracker.Data.Entities.IncomesAggregate;
 using ExpenseTracker.Data.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -33,4 +34,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
     public DbSet<ExpenseTag> ExpenseTags { get; set; }
     public DbSet<ExpenseExpenseTag> ExpenseExpenseTags { get; set; }
+
+    public DbSet<Income> Incomes { get; set; }
+    public DbSet<IncomeCategory> IncomeCategories { get; set; }
 }

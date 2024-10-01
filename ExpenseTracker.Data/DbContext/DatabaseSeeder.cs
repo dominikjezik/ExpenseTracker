@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using ExpenseTracker.Data.Entities.ExpenseAggregate;
+using ExpenseTracker.Data.Entities.IncomesAggregate;
 using ExpenseTracker.Data.Identity;
 
 namespace ExpenseTracker.Data.DbContext;
@@ -37,6 +38,7 @@ public class DatabaseSeeder(ApplicationDbContext context)
         foreach (var user in users)
         {
             GenerateExpensesForUser(user);
+            GenerateIncomesForUser(user);
         }
         
         context.SaveChanges();
@@ -104,5 +106,26 @@ public class DatabaseSeeder(ApplicationDbContext context)
         }
         
         context.Expenses.AddRange(expenses);
+    }
+    
+    private void GenerateIncomesForUser(ApplicationUser user)
+    {
+        var incomes = new List<Income>();
+        var numberOfIncomes = _faker.Random.Int(1, 30);
+        
+        for (int i = 0; i < numberOfIncomes; i++)
+        {
+            var income = new Income
+            {
+                UserId = user.Id,
+                CreatedAt = _faker.Date.Past(),
+                Amount = _faker.Random.Decimal(1, 5000),
+                Description = _faker.Lorem.Sentence()
+            };
+            
+            incomes.Add(income);
+        }
+        
+        context.Incomes.AddRange(incomes);
     }
 }
