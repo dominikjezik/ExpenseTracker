@@ -12,65 +12,21 @@ builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticat
 
 builder.Services.AddBlazorBootstrap();
 
-// TODO: Refactor this code
-builder.Services.AddHttpClient<IExpensesService, ExpensesService>(client =>
-{
-    var apiUrl = "https://localhost:7290";
-    /*
-    var apiUrl = builder.Configuration["ApiUrl"] ??
-                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
-                 */
-    client.BaseAddress = new Uri(apiUrl);
-});
+var apiUrl = builder.Configuration["ExpenseTrackerApi:BaseUrl"] ?? 
+             throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
 
-builder.Services.AddHttpClient<IExpenseCategoriesService, ExpenseCategoriesService>(client =>
-{
-    var apiUrl = "https://localhost:7290";
-    /*
-    var apiUrl = builder.Configuration["ApiUrl"] ??
-                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
-                 */
-    client.BaseAddress = new Uri(apiUrl);
-});
+builder.Services.AddHttpClient<IExpensesService, ExpensesService>(c => c.BaseAddress = new Uri(apiUrl));
+builder.Services.AddHttpClient<IExpenseCategoriesService, ExpenseCategoriesService>(c => c.BaseAddress = new Uri(apiUrl));
+builder.Services.AddHttpClient<IExpenseTagsService, ExpenseTagsService>(c => c.BaseAddress = new Uri(apiUrl));
+builder.Services.AddHttpClient<IStatisticsService, StatisticsService>(client => client.BaseAddress = new Uri(apiUrl));
+builder.Services.AddHttpClient<IIncomesService, IncomesService>(client => client.BaseAddress = new Uri(apiUrl));
+builder.Services.AddHttpClient<IIncomeCategoriesService, IncomeCategoriesService>(client => client.BaseAddress = new Uri(apiUrl));
 
-builder.Services.AddHttpClient<IExpenseTagsService, ExpenseTagsService>(client =>
+builder.Services.AddHttpClient<IReceiptsService, ReceiptsService>(client =>
 {
-    var apiUrl = "https://localhost:7290";
-    /*
-    var apiUrl = builder.Configuration["ApiUrl"] ??
-                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
-                 */
-    client.BaseAddress = new Uri(apiUrl);
-});
-
-builder.Services.AddHttpClient<IStatisticsService, StatisticsService>(client =>
-{
-    var apiUrl = "https://localhost:7290";
-    /*
-    var apiUrl = builder.Configuration["ApiUrl"] ??
-                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
-                 */
-    client.BaseAddress = new Uri(apiUrl);
-});
-
-builder.Services.AddHttpClient<IIncomesService, IncomesService>(client =>
-{
-    var apiUrl = "https://localhost:7290";
-    /*
-    var apiUrl = builder.Configuration["ApiUrl"] ??
-                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
-                 */
-    client.BaseAddress = new Uri(apiUrl);
-});
-
-builder.Services.AddHttpClient<IIncomeCategoriesService, IncomeCategoriesService>(client =>
-{
-    var apiUrl = "https://localhost:7290";
-    /*
-    var apiUrl = builder.Configuration["ApiUrl"] ??
-                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
-                 */
-    client.BaseAddress = new Uri(apiUrl);
+    var receiptsApiUrl = builder.Configuration["ReceiptsApi:BaseUrl"] ?? 
+                 throw new InvalidOperationException("Configuration value 'ReceiptsApi:BaseUrl' not found.");
+    client.BaseAddress = new Uri(receiptsApiUrl);
 });
 
 await builder.Build().RunAsync();

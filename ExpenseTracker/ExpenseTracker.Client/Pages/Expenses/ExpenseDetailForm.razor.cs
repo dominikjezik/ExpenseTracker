@@ -11,9 +11,10 @@ public partial class ExpenseDetailForm
 {
     [Parameter] 
     public ExpenseDTO? SelectedExpense { get; set; }
-    
-    private bool IsCreateForm => SelectedExpense == null;
-    
+
+    [Parameter] 
+    public bool IsEditForm { get; set; } = false;
+
     private ExpenseFormDTO ExpenseForm { get; set; } = new();
     
     private List<ExpenseCategoryDTO> Categories { get; set; } = new();
@@ -46,6 +47,16 @@ public partial class ExpenseDetailForm
         }
     }
 
+    protected override Task OnParametersSetAsync()
+    {
+        if (SelectedExpense != null)
+        {
+            ExpenseForm = SelectedExpense.ToForm();
+        }
+        
+        return base.OnParametersSetAsync();
+    }
+
     private bool IsActiveTag(Guid tagId)
     {
         return ExpenseForm.TagIds.Contains(tagId);
@@ -66,13 +77,13 @@ public partial class ExpenseDetailForm
 
     private async Task OnSubmitForm()
     {
-        if (IsCreateForm)
+        if (IsEditForm)
         {
-            await CreateExpense();
+            await UpdateExpense();
         }
         else
         {
-            await UpdateExpense();
+            await CreateExpense();
         }
     }
 

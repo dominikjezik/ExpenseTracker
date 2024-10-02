@@ -43,12 +43,12 @@
         }
     </div>
 
-    @if (IsCreateForm)
+    @if (IsEditForm)
     {
-        <Button Color="ButtonColor.Success" Type="ButtonType.Submit" class="mt-2">Create Expense</Button>
+        <Button Color="ButtonColor.Primary" Type="ButtonType.Submit" class="mt-2">Save Expense</Button>
     }
     else
     {
-        <Button Color="ButtonColor.Primary" Type="ButtonType.Submit" class="mt-2">Save Expense</Button>
+        <Button Color="ButtonColor.Success" Type="ButtonType.Submit" class="mt-2">Create Expense</Button>
     }
 </EditForm>

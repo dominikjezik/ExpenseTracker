@@ -1,0 +1,11 @@
+@page "/receipts/scan"
+@using ReactorBlazorQRCodeScanner
+
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<h1 class="mb-3">Receipts Scan</h1>
+<p>
+    Scan QR code from receipts to load details for new expense.
+</p>
+
+<QRCodeScanner LoadingMessage="Please allow camera access and wait for initialization" />
