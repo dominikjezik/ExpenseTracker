@@ -1,0 +1,43 @@
+@page "/incomes"
+@using ExpenseTracker.Business.Incomes.DTOs
+
+@*@attribute [StreamRendering]*@
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Incomes</h1>
+    <NavLink href="/incomes/create" class="btn btn-success">Create Income</NavLink>
+</div>
+
+@if (Incomes.IsLoading)
+{
+    <p>Loading data from API...</p>
+}
+else if (Incomes.IsSuccess)
+{
+    <Grid TItem="IncomeDTO" 
+          Data="Incomes.Data"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick"
+          Class="table table-hover table-bordered table-striped">
+        <GridColumns>
+            <GridColumn TItem="IncomeDTO" HeaderText="Date" PropertyName="@nameof(IncomeDTO.CreatedAt)" SortKeySelector="e => e.CreatedAt">
+                @context.DisplayDate
+            </GridColumn>
+            <GridColumn TItem="IncomeDTO" HeaderText="Description" PropertyName="@nameof(IncomeDTO.Description)" SortKeySelector="e => e.Description ?? string.Empty">
+                @context.Description
+            </GridColumn>
+            <GridColumn TItem="IncomeDTO" HeaderText="€" PropertyName="@nameof(IncomeDTO.Amount)" SortKeySelector="e => e.Amount" TextAlignment="Alignment.End">
+                @context.DisplayAmount
+            </GridColumn>
+            <GridColumn TItem="IncomeDTO" HeaderText="Category" PropertyName="@nameof(IncomeDTO.Category)" SortKeySelector="e => e.Category == null ? string.Empty : e.Category.Name">
+                @context.Category?.Name
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+}
+else
+{
+    <p>@Incomes.ErrorMessage</p>
+}

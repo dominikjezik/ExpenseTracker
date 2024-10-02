@@ -7,8 +7,12 @@ namespace ExpenseTracker.Client.Pages.Dashboard;
 
 public partial class Index
 {
+    private bool FirstLoad { get; set; } = true;
+    
     private Result<List<MonthDataItemDTO>> YearData { get; set; } = Result<List<MonthDataItemDTO>>.Loading();
+    
     private Result<List<CategoryExpenseDataItemDTO>> CategoriesExpensesData { get; set; } = Result<List<CategoryExpenseDataItemDTO>>.Loading();
+    
     private Result<BalanceDTO> BalanceData { get; set; } = Result<BalanceDTO>.Loading();
     
     private DateTime fromDate = new(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -47,6 +51,8 @@ public partial class Index
     
     private async Task TimeIntervalChanged()
     {
+        FirstLoad = false;
+        
         CategoriesExpensesData = Result<List<CategoryExpenseDataItemDTO>>.Loading();
         BalanceData = Result<BalanceDTO>.Loading();
         

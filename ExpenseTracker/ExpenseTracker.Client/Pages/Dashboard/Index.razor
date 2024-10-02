@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Dashboard</h1>
     <div class="d-flex justify-content-center align-items-center">
-        @if (!CategoriesExpensesData.IsLoading && !BalanceData.IsLoading && !YearData.IsLoading)
+        @if (!FirstLoad || !(CategoriesExpensesData.IsLoading || BalanceData.IsLoading || YearData.IsLoading))
         {
             <div class="d-flex">
                 <div class="d-flex align-items-center me-2">

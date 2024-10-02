@@ -93,6 +93,26 @@ builder.Services.AddHttpClient<IStatisticsService, StatisticsService>(client =>
     client.BaseAddress = new Uri(apiUrl);
 });
 
+builder.Services.AddHttpClient<IIncomesService, IncomesService>(client =>
+{
+    var apiUrl = "https://localhost:7290";
+    /*
+    var apiUrl = builder.Configuration["ApiUrl"] ??
+                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
+                 */
+    client.BaseAddress = new Uri(apiUrl);
+});
+
+builder.Services.AddHttpClient<IIncomeCategoriesService, IncomeCategoriesService>(client =>
+{
+    var apiUrl = "https://localhost:7290";
+    /*
+    var apiUrl = builder.Configuration["ApiUrl"] ??
+                 throw new InvalidOperationException("Configuration value 'ApiUrl' not found.");
+                 */
+    client.BaseAddress = new Uri(apiUrl);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

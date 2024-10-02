@@ -110,16 +110,31 @@ public class DatabaseSeeder(ApplicationDbContext context)
     
     private void GenerateIncomesForUser(ApplicationUser user)
     {
+        // Categories
+        var incomeCategories = new List<IncomeCategory>
+        {
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Salary", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Freelance", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Investments", Description = _faker.Lorem.Sentence() },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", Description = _faker.Lorem.Sentence() }
+        };
+        
+        context.IncomeCategories.AddRange(incomeCategories);
+        
+        // Incomes
         var incomes = new List<Income>();
-        var numberOfIncomes = _faker.Random.Int(1, 30);
+        var numberOfIncomes = _faker.Random.Int(1, 50);
         
         for (int i = 0; i < numberOfIncomes; i++)
         {
+            var category = incomeCategories[_faker.Random.Int(0, incomeCategories.Count - 1)];
+            
             var income = new Income
             {
                 UserId = user.Id,
+                CategoryId = category.Id,
                 CreatedAt = _faker.Date.Past(),
-                Amount = _faker.Random.Decimal(1, 5000),
+                Amount = _faker.Random.Decimal(1, 150),
                 Description = _faker.Lorem.Sentence()
             };
             

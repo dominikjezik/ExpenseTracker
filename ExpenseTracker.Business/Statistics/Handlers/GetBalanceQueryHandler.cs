@@ -15,8 +15,10 @@ public class GetBalanceQueryHandler(ApplicationDbContext context)
         DateTime from = request.From ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         DateTime to = request.To ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month), 23, 59, 59);
         
-        // TODO: Implement fetching income
-        var incomes = 5000;
+        var incomes = await context.Incomes
+            .Where(i => i.UserId == request.UserId)
+            .Where(i => i.CreatedAt >= from && i.CreatedAt <= to)
+            .SumAsync(i => i.Amount);
         
         var expenses = await context.Expenses
             .Where(e => e.UserId == request.UserId)

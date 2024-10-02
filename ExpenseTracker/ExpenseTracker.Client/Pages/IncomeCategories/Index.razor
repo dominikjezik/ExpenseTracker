@@ -1,0 +1,40 @@
+@page "/incomes/categories"
+@using ExpenseTracker.Business.IncomeCategories.DTOs
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<IncomeCategoryDetailModal @ref="categoryDetailModal" OnSuccess="FetchCategories" OnDelete="DeleteCategory" />
+
+<ConfirmDialog @ref="deleteDialog" />
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Income Categories</h1>
+    <Button Color="ButtonColor.Success" @onclick="OnCreateButtonClick">New Category</Button>
+</div>
+
+@if (Categories.IsLoading)
+{
+    <p>Loading data from API...</p>
+}
+else if (Categories.IsSuccess)
+{
+    <Grid TItem="IncomeCategoryDTO" 
+          Data="Categories.Data"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick"
+          Class="table table-hover table-bordered table-striped">
+        <GridColumns>
+            <GridColumn TItem="IncomeCategoryDTO" HeaderText="Name" PropertyName="@nameof(IncomeCategoryDTO.Name)" SortKeySelector="e => e.Name">
+                @context.Name
+            </GridColumn>
+            <GridColumn TItem="IncomeCategoryDTO" HeaderText="Description" PropertyName="@nameof(IncomeCategoryDTO.Description)" SortKeySelector="e => e.Description ?? string.Empty">
+                @context.Description
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+}
+else
+{
+    <p>@Categories.ErrorMessage</p>
+}

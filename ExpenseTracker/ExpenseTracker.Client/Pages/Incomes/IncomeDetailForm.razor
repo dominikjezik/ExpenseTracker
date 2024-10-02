@@ -1,0 +1,43 @@
+<EditForm Model="@IncomeForm" OnValidSubmit="@OnSubmitForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-2">
+        <label for="CreatedAt">Date</label>
+        <InputDate id="CreatedAt" class="form-control mt-1" @bind-Value="IncomeForm.CreatedAt" />
+        <ValidationMessage For="@(() => IncomeForm.CreatedAt)" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="Amount">Amount</label>
+        <InputNumber id="Amount" class="form-control mt-1" step=".01" @bind-Value="IncomeForm.Amount" />
+        <ValidationMessage For="@(() => IncomeForm.Amount)" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="Description">Description</label>
+        <InputText id="Description" class="form-control mt-1" @bind-Value="IncomeForm.Description" />
+        <ValidationMessage For="@(() => IncomeForm.Description)" />
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="CategoryId">Category</label>
+        <InputSelect id="CategoryId" class="form-control mt-1" @bind-Value="IncomeForm.CategoryId">
+            <option value="">Not selected</option>
+            @foreach (var category in Categories)
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => IncomeForm.CategoryId)" />
+    </div>
+
+    @if (IsCreateForm)
+    {
+        <Button Color="ButtonColor.Success" Type="ButtonType.Submit" class="mt-2">Create Income</Button>
+    }
+    else
+    {
+        <Button Color="ButtonColor.Primary" Type="ButtonType.Submit" class="mt-2">Save Income</Button>
+    }
+</EditForm>
