@@ -106,6 +106,29 @@ public class DatabaseSeeder(ApplicationDbContext context)
         }
         
         context.Expenses.AddRange(expenses);
+        
+        // Expense Templates
+        var expenseTemplates = new List<ExpenseTemplate>();
+        var numberOfTemplates = _faker.Random.Int(1, 10);
+        
+        for (int i = 0; i < numberOfTemplates; i++)
+        {
+            var category = expenseCategories[_faker.Random.Int(0, expenseCategories.Count - 1)];
+            var numberOfTags = _faker.Random.Int(0, 5);
+            var tags = expenseTags.OrderBy(t => _faker.Random.Int()).Take(numberOfTags).ToList();
+            
+            var template = new ExpenseTemplate
+            {
+                UserId = user.Id,
+                OrganizationName = _faker.Company.CompanyName(),
+                CategoryId = category.Id,
+                Tags = tags.Select(t => new ExpenseTemplateExpenseTag { ExpenseTagId = t.Id }).ToList()
+            };
+            
+            expenseTemplates.Add(template);
+        }
+        
+        context.ExpenseTemplates.AddRange(expenseTemplates);
     }
     
     private void GenerateIncomesForUser(ApplicationUser user)

@@ -18,6 +18,7 @@ var apiUrl = builder.Configuration["ExpenseTrackerApi:BaseUrl"] ??
 builder.Services.AddHttpClient<IExpensesService, ExpensesService>(c => c.BaseAddress = new Uri(apiUrl));
 builder.Services.AddHttpClient<IExpenseCategoriesService, ExpenseCategoriesService>(c => c.BaseAddress = new Uri(apiUrl));
 builder.Services.AddHttpClient<IExpenseTagsService, ExpenseTagsService>(c => c.BaseAddress = new Uri(apiUrl));
+builder.Services.AddHttpClient<IExpenseTemplatesService, ExpenseTemplatesService>(c => c.BaseAddress = new Uri(apiUrl));
 builder.Services.AddHttpClient<IStatisticsService, StatisticsService>(client => client.BaseAddress = new Uri(apiUrl));
 builder.Services.AddHttpClient<IIncomesService, IncomesService>(client => client.BaseAddress = new Uri(apiUrl));
 builder.Services.AddHttpClient<IIncomeCategoriesService, IncomeCategoriesService>(client => client.BaseAddress = new Uri(apiUrl));

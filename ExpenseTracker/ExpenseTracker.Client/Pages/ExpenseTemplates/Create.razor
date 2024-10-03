@@ -1,0 +1,15 @@
+﻿@page "/expenses/templates/create"
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Create new Expense Template</h1>
+    <NavLink ActiveClass="active-class" class="btn btn-outline-secondary d-flex align-items-center" href="/expenses/templates">
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-chevron-left me-1" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+        </svg>
+        Go back
+    </NavLink>
+</div>
+
+<ExpenseTemplateDetailForm />

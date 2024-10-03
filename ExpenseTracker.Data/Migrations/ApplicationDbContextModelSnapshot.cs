@@ -63,7 +63,7 @@ namespace ExpenseTracker.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -71,6 +71,9 @@ namespace ExpenseTracker.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("Name", "UserId")
+                        .IsUnique();
 
                     b.ToTable("ExpenseCategories");
                 });
@@ -98,7 +101,7 @@ namespace ExpenseTracker.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -107,7 +110,50 @@ namespace ExpenseTracker.Data.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("Name", "UserId")
+                        .IsUnique();
+
                     b.ToTable("ExpenseTags");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTemplate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExpenseTemplates");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTemplateExpenseTag", b =>
+                {
+                    b.Property<Guid>("ExpenseTemplateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExpenseTagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ExpenseTemplateId", "ExpenseTagId");
+
+                    b.HasIndex("ExpenseTagId");
+
+                    b.ToTable("ExpenseTemplateExpenseTags");
                 });
 
             modelBuilder.Entity("ExpenseTracker.Data.Entities.IncomesAggregate.Income", b =>
@@ -117,7 +163,7 @@ namespace ExpenseTracker.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
@@ -151,7 +197,7 @@ namespace ExpenseTracker.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -159,6 +205,9 @@ namespace ExpenseTracker.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("Name", "UserId")
+                        .IsUnique();
 
                     b.ToTable("IncomeCategories");
                 });
@@ -426,6 +475,42 @@ namespace ExpenseTracker.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTemplate", b =>
+                {
+                    b.HasOne("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("ExpenseTracker.Data.Identity.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTemplateExpenseTag", b =>
+                {
+                    b.HasOne("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTag", "ExpenseTag")
+                        .WithMany("ExpenseTemplateExpenseTags")
+                        .HasForeignKey("ExpenseTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTemplate", "ExpenseTemplate")
+                        .WithMany("Tags")
+                        .HasForeignKey("ExpenseTemplateId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ExpenseTag");
+
+                    b.Navigation("ExpenseTemplate");
+                });
+
             modelBuilder.Entity("ExpenseTracker.Data.Entities.IncomesAggregate.Income", b =>
                 {
                     b.HasOne("ExpenseTracker.Data.Entities.IncomesAggregate.IncomeCategory", "Category")
@@ -513,6 +598,13 @@ namespace ExpenseTracker.Data.Migrations
             modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTag", b =>
                 {
                     b.Navigation("ExpenseExpenseTags");
+
+                    b.Navigation("ExpenseTemplateExpenseTags");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTemplate", b =>
+                {
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("ExpenseTracker.Data.Identity.ApplicationUser", b =>

@@ -6,6 +6,11 @@ namespace ExpenseTracker.Business.Client.DTOs;
 public class ReceiptDTO
 {
     /// <summary>
+    /// Name of the organization that is on the receipt.
+    /// </summary>
+    public string? OrganizationName { get; set; }
+    
+    /// <summary>
     /// Date and time when the receipt was created.
     /// </summary>
     public DateTime? CreateDate { get; set; }

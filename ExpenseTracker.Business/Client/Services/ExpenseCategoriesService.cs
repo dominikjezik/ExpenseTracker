@@ -26,6 +26,12 @@ public class ExpenseCategoriesService(HttpClient httpClient) : IExpenseCategorie
     {
         var response = await httpClient.PostAsJsonAsync("api/expenses/categories", categoryForm);
 
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var msg = await response.Content.ReadAsStringAsync();
+            return Result<ExpenseCategoryDTO>.Error(msg);
+        }
+
         if (!response.IsSuccessStatusCode)
         {
             return Result<ExpenseCategoryDTO>.Error("Failed to create category.");
@@ -40,6 +46,12 @@ public class ExpenseCategoriesService(HttpClient httpClient) : IExpenseCategorie
     {
         var response = await httpClient.PutAsJsonAsync($"api/expenses/categories/{categoryId}", categoryForm);
 
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var msg = await response.Content.ReadAsStringAsync();
+            return Result<object>.Error(msg);
+        }
+        
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             return Result<object>.Error("Expense category not found.");

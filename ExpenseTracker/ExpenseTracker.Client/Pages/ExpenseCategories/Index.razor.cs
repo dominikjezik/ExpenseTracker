@@ -61,7 +61,7 @@ public partial class Index
             {
                 ToastService.Notify(new() {
                     Type = ToastType.Success,
-                    Message = $"Expense Category \"{category.Name} \" successfully deleted!"
+                    Message = $"Expense Category \"{category.Name}\" successfully deleted!"
                 });
                 
                 await FetchCategories();

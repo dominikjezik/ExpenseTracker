@@ -1,0 +1,42 @@
+﻿@page "/expenses/templates"
+@using ExpenseTracker.Business.ExpenseTemplates.DTOs
+
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Expense Templates</h1>
+    <NavLink href="/expenses/templates/create" class="btn btn-success">Create Expense Template</NavLink>
+</div>
+
+@if (ExpenseTemplates.IsLoading)
+{
+    <p>Loading data from API...</p>
+}
+else if (ExpenseTemplates.IsSuccess)
+{
+    <Grid TItem="ExpenseTemplateDTO" 
+          Data="ExpenseTemplates.Data"
+          AllowRowClick="true"
+          AllowSorting="true"
+          OnRowClick="OnRowClick"
+          Class="table table-hover table-bordered table-striped">
+        <GridColumns>
+            <GridColumn TItem="ExpenseTemplateDTO" HeaderText="Description" PropertyName="@nameof(ExpenseTemplateDTO.OrganizationName)" SortKeySelector="e => e.OrganizationName">
+                @context.OrganizationName
+            </GridColumn>
+            <GridColumn TItem="ExpenseTemplateDTO" HeaderText="Category" PropertyName="@nameof(ExpenseTemplateDTO.Category)" SortKeySelector="e => e.Category == null ? string.Empty : e.Category.Name">
+                @context.Category?.Name
+            </GridColumn>
+            <GridColumn TItem="ExpenseTemplateDTO" HeaderText="Tags" PropertyName="@nameof(ExpenseTemplateDTO.Tags)">
+                @foreach (var tag in context.Tags)
+                {
+                    <Badge Color="BadgeColor.Primary" IndicatorType="BadgeIndicatorType.RoundedPill" Class="me-1">@tag.Name</Badge>
+                }
+            </GridColumn>
+        </GridColumns>
+    </Grid>
+}
+else
+{
+    <p>@ExpenseTemplates.ErrorMessage</p>
+}

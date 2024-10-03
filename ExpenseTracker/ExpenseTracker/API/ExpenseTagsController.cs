@@ -29,6 +29,7 @@ public class ExpenseTagsController(ILogger<ExpensesController> logger, IMediator
     
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ExpenseTagDTO>> CreateTag([FromBody] ExpenseTagFormDTO tagForm)
     {
@@ -37,6 +38,10 @@ public class ExpenseTagsController(ILogger<ExpensesController> logger, IMediator
             var userId = GetCurrentUserId();
             var createdTag = await mediator.Send(new CreateExpenseTagCommand(tagForm, userId));
             return CreatedAtAction(nameof(GetTags), createdTag);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -47,6 +52,7 @@ public class ExpenseTagsController(ILogger<ExpensesController> logger, IMediator
     
     [HttpPut("{tagId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> UpdateTag(Guid tagId, [FromBody] ExpenseTagFormDTO tagForm)
@@ -64,6 +70,10 @@ public class ExpenseTagsController(ILogger<ExpensesController> logger, IMediator
             await mediator.Send(new UpdateExpenseTagCommand(tagForm, existingTag, userId));
             
             return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

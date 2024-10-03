@@ -29,6 +29,7 @@ public class IncomeCategoriesController(ILogger<IncomeCategoriesController> logg
     
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IncomeCategoryDTO>> CreateCategory([FromBody] IncomeCategoryFormDTO categoryForm)
     {
@@ -37,6 +38,10 @@ public class IncomeCategoriesController(ILogger<IncomeCategoriesController> logg
             var userId = GetCurrentUserId();
             var createdCategory = await mediator.Send(new CreateIncomeCategoryCommand(categoryForm, userId));
             return CreatedAtAction(nameof(GetCategories), createdCategory);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -47,6 +52,7 @@ public class IncomeCategoriesController(ILogger<IncomeCategoriesController> logg
     
     [HttpPut("{categoryId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -65,6 +71,10 @@ public class IncomeCategoriesController(ILogger<IncomeCategoriesController> logg
             await mediator.Send(new UpdateIncomeCategoryCommand(categoryForm, existingCategory, userId));
             
             return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (UnauthorizedAccessException)
         {

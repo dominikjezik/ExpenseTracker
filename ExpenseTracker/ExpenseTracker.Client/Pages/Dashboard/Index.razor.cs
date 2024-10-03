@@ -56,7 +56,10 @@ public partial class Index
         CategoriesExpensesData = Result<List<CategoryExpenseDataItemDTO>>.Loading();
         BalanceData = Result<BalanceDTO>.Loading();
         
-        CategoriesExpensesData = await StatisticsService.GetCategoriesExpenses(fromDate, toDate);
+        // We want expenses from whole last day (without this it would take expenses to 00:00 of toDate)
+        var modifiedToDate = toDate.AddDays(1);
+        
+        CategoriesExpensesData = await StatisticsService.GetCategoriesExpenses(fromDate, modifiedToDate);
         BalanceData = await StatisticsService.GetBalance(fromDate, toDate);
     }
 }

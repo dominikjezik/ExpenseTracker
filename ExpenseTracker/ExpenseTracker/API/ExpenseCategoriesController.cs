@@ -29,6 +29,7 @@ public class ExpenseCategoriesController(ILogger<ExpensesController> logger, IMe
     
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ExpenseCategoryDTO>> CreateCategory([FromBody] ExpenseCategoryFormDTO categoryForm)
     {
@@ -37,6 +38,10 @@ public class ExpenseCategoriesController(ILogger<ExpensesController> logger, IMe
             var userId = GetCurrentUserId();
             var createdCategory = await mediator.Send(new CreateExpenseCategoryCommand(categoryForm, userId));
             return CreatedAtAction(nameof(GetCategories), createdCategory);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -47,6 +52,7 @@ public class ExpenseCategoriesController(ILogger<ExpensesController> logger, IMe
     
     [HttpPut("{categoryId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -69,6 +75,10 @@ public class ExpenseCategoriesController(ILogger<ExpensesController> logger, IMe
         catch (UnauthorizedAccessException)
         {
             return StatusCode(StatusCodes.Status403Forbidden);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

@@ -16,6 +16,11 @@ public class ExpenseTag : BaseEntity<Guid>
     /// Expenses which are associated with the tag.
     /// </summary>
     public IEnumerable<ExpenseExpenseTag> ExpenseExpenseTags { get; set; } = new List<ExpenseExpenseTag>();
+    
+    /// <summary>
+    /// ExpenseTemplates which are associated with the tag.
+    /// </summary>
+    public IEnumerable<ExpenseTemplateExpenseTag> ExpenseTemplateExpenseTags { get; set; } = new List<ExpenseTemplateExpenseTag>();
 
     /// <summary>
     /// UserId which created the tag.

@@ -35,9 +35,12 @@ public class ReceiptsService(HttpClient httpClient, IConfiguration configuration
                     Name = item.GetProperty("name").GetString(),
                     Price = item.GetProperty("price").GetDecimal()
                 }).ToList();
+            
+            var organizationName = jsonRoot.GetProperty("receipt").GetProperty("organization").GetProperty("name").GetString();
 
             var receiptDTO = new ReceiptDTO
             {
+                OrganizationName = organizationName,
                 CreateDate = createDate != null ? DateTime.ParseExact(createDate, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture) : null,
                 TotalPrice = totalPrice,
                 Items = items

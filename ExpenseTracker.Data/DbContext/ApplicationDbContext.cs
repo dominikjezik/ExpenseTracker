@@ -15,6 +15,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         builder.Entity<Expense>()
             .Property(e => e.Amount)
             .HasColumnType("money");
+        
+        builder.Entity<Income>()
+            .Property(i => i.Amount)
+            .HasColumnType("money");
 
         builder.Entity<ExpenseExpenseTag>()
             .HasKey(eet => new { eet.ExpenseId, eet.ExpenseTagId });
@@ -28,12 +32,36 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithOne(eet => eet.Expense)
             .HasForeignKey(eet => eet.ExpenseId)
             .OnDelete(DeleteBehavior.NoAction); // Change to NoAction to avoid cycles
+
+        builder.Entity<ExpenseTemplateExpenseTag>()
+            .HasKey(eet => new { eet.ExpenseTemplateId, eet.ExpenseTagId });
+        
+        // Same as above
+        builder.Entity<ExpenseTemplate>()
+            .HasMany(e => e.Tags)
+            .WithOne(eet => eet.ExpenseTemplate)
+            .HasForeignKey(eet => eet.ExpenseTemplateId)
+            .OnDelete(DeleteBehavior.NoAction); // Change to NoAction to avoid cycles
+        
+        builder.Entity<ExpenseCategory>()
+            .HasIndex(c => new { c.Name, c.UserId })
+            .IsUnique();
+        
+        builder.Entity<ExpenseTag>()
+            .HasIndex(t => new { t.Name, t.UserId })
+            .IsUnique();
+
+        builder.Entity<IncomeCategory>()
+            .HasIndex(c => new { c.Name, c.UserId })
+            .IsUnique();
     }
 
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
     public DbSet<ExpenseTag> ExpenseTags { get; set; }
     public DbSet<ExpenseExpenseTag> ExpenseExpenseTags { get; set; }
+    public DbSet<ExpenseTemplate> ExpenseTemplates { get; set; }
+    public DbSet<ExpenseTemplateExpenseTag> ExpenseTemplateExpenseTags { get; set; }
 
     public DbSet<Income> Incomes { get; set; }
     public DbSet<IncomeCategory> IncomeCategories { get; set; }

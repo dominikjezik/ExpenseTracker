@@ -25,6 +25,12 @@ public class IncomeCategoriesService(HttpClient httpClient) : IIncomeCategoriesS
     public async Task<Result<IncomeCategoryDTO>> CreateCategory(IncomeCategoryFormDTO categoryForm)
     {
         var response = await httpClient.PostAsJsonAsync("api/incomes/categories", categoryForm);
+        
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var msg = await response.Content.ReadAsStringAsync();
+            return Result<IncomeCategoryDTO>.Error(msg);
+        }
 
         if (!response.IsSuccessStatusCode)
         {
@@ -39,6 +45,12 @@ public class IncomeCategoriesService(HttpClient httpClient) : IIncomeCategoriesS
     public async Task<Result<object>> UpdateCategory(Guid categoryId, IncomeCategoryFormDTO categoryForm)
     {
         var response = await httpClient.PutAsJsonAsync($"api/incomes/categories/{categoryId}", categoryForm);
+        
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var msg = await response.Content.ReadAsStringAsync();
+            return Result<object>.Error(msg);
+        }
         
         if (response.StatusCode == HttpStatusCode.NotFound)
         {

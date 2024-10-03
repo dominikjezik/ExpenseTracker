@@ -26,6 +26,12 @@ public class ExpenseTagsService(HttpClient httpClient) : IExpenseTagsService
     {
         var response = await httpClient.PostAsJsonAsync("api/expenses/tags", tagForm);
 
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var msg = await response.Content.ReadAsStringAsync();
+            return Result<ExpenseTagDTO>.Error(msg);
+        }
+        
         if (!response.IsSuccessStatusCode)
         {
             return Result<ExpenseTagDTO>.Error("Failed to create tag.");
@@ -39,6 +45,12 @@ public class ExpenseTagsService(HttpClient httpClient) : IExpenseTagsService
     public async Task<Result<object>> UpdateTag(Guid tagId, ExpenseTagFormDTO tagForm)
     {
         var response = await httpClient.PutAsJsonAsync($"api/expenses/tags/{tagId}", tagForm);
+        
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var msg = await response.Content.ReadAsStringAsync();
+            return Result<object>.Error(msg);
+        }
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
