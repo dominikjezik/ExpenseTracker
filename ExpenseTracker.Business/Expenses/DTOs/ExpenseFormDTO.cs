@@ -61,9 +61,7 @@ public static class ExpenseFormDTOExtensions
         targetExpense.CreatedAt = form.CreatedAt;
         targetExpense.Description = form.Description;
         targetExpense.CategoryId = form.CategoryId;
-
-        targetExpense.Tags = form.TagIds.Select(tagId => new ExpenseExpenseTag { ExpenseTagId = tagId }).ToList();
-
+        
         return targetExpense;
     }
     

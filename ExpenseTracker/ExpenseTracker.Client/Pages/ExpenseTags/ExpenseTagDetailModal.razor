@@ -9,6 +9,18 @@
                 <InputText id="Name" class="form-control" @bind-Value="TagForm.Name"/>
                 <ValidationMessage For="@(() => TagForm.Name)"/>
             </div>
+
+            <div class="form-group mb-2">
+                <label for="CategoryId">Category</label>
+                <InputSelect id="CategoryId" class="form-control mt-1" @bind-Value="TagForm.CategoryId">
+                    <option value="">Not selected</option>
+                    @foreach (var category in Categories)
+                    {
+                        <option value="@category.CategoryId">@category.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => TagForm.CategoryId)" />
+            </div>
         </EditForm>
     </BodyTemplate>
     <FooterTemplate>

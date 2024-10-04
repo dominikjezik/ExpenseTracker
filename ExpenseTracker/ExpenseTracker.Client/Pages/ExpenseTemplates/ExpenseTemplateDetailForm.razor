@@ -10,7 +10,8 @@
 
     <div class="form-group mb-2">
         <label for="CategoryId">Category</label>
-        <InputSelect id="CategoryId" class="form-control mt-1" @bind-Value="ExpenseTemplateForm.CategoryId">
+        <InputSelect id="CategoryId" class="form-control mt-1" TValue="Guid?" Value="@ExpenseTemplateForm.CategoryId"
+                     ValueChanged="OnCategoryChanged" ValueExpression="@(() => ExpenseTemplateForm.CategoryId)">
             <option value="">Not selected</option>
             @foreach (var category in Categories)
             {
@@ -22,12 +23,25 @@
     
     <div class="form-group mb-2">
         <p class="mb-1">Tags</p>
-        @foreach (var tag in Tags)
+        @if (Tags.IsLoading)
         {
-            <Badge Color="IsActiveTag(tag.TagId) ? BadgeColor.Primary : BadgeColor.Light" 
-                   IndicatorType="BadgeIndicatorType.RoundedPill" Class="me-1 mb-1 px-3 py-2"
-                   Style="cursor: pointer; user-select: none;"
-                   @onclick="()=>TagClicked(tag.TagId)">@tag.Name</Badge>
+            <Spinner Type="SpinnerType.Dots" Color="SpinnerColor.Primary"/>
+        }
+        else if (Tags.IsSuccess)
+        {
+            foreach (var tag in Tags.Data)
+            {
+                <Badge Color="IsActiveTag(tag.TagId) ? BadgeColor.Primary : BadgeColor.Light"
+                       IndicatorType="BadgeIndicatorType.RoundedPill" Class="me-1 mb-1 px-3 py-2"
+                       Style="cursor: pointer; user-select: none;"
+                       @onclick="()=>TagClicked(tag.TagId)">
+                    @tag.Name
+                </Badge>
+            }
+        }
+        else
+        { 
+            <p>Error loading tags</p>
         }
     </div>
 

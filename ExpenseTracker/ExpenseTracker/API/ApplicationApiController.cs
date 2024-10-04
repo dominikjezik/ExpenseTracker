@@ -10,7 +10,7 @@ public abstract class ApplicationApiController : ControllerBase
     {
         // TODO: Replace the Guid.TryParse("") with the user's ID.
         //var success = Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier)!, out var userId);
-        var success = Guid.TryParse("86f45ed1-fed9-4fef-bdc7-a8b7596a88bb", out var userId);
+        var success = Guid.TryParse("b3beaeef-f0ea-42ea-89f5-fe021e42576e", out var userId);
         
         if (!success)
         {

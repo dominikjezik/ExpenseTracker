@@ -36,6 +36,10 @@ public class DeleteExpenseCategoryCommandHandler(ApplicationDbContext context)
             
             context.ExpenseTemplates.UpdateRange(expenseTemplates);
             
+            // Delete tags associated with this category
+            var tags = context.ExpenseTags.Where(t => t.CategoryId == request.Category.Id);
+            context.ExpenseTags.RemoveRange(tags);
+            
             // Delete the category
             context.ExpenseCategories.Remove(request.Category);
             

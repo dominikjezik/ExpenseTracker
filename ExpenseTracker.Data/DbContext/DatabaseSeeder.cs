@@ -47,39 +47,84 @@ public class DatabaseSeeder(ApplicationDbContext context)
     private void GenerateExpensesForUser(ApplicationUser user)
     {
         // Categories
+        var categoryFood = new ExpenseCategory { Id = Guid.NewGuid(), UserId = user.Id, Name = "Food", Description = _faker.Lorem.Sentence() };
+        var categoryTransport = new ExpenseCategory { Id = Guid.NewGuid(), UserId = user.Id, Name = "Transport", Description = _faker.Lorem.Sentence() };
+        var categoryEntertainment = new ExpenseCategory { Id = Guid.NewGuid(), UserId = user.Id, Name = "Entertainment", Description = _faker.Lorem.Sentence() };
+        var categoryHealth = new ExpenseCategory { Id = Guid.NewGuid(), UserId = user.Id, Name = "Health", Description = _faker.Lorem.Sentence() };
+        var categoryClothes = new ExpenseCategory { Id = Guid.NewGuid(), UserId = user.Id, Name = "Clothes", Description = _faker.Lorem.Sentence() };
+        var categoryOther = new ExpenseCategory { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", Description = _faker.Lorem.Sentence() };
+        
         var expenseCategories = new List<ExpenseCategory>
         {
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Food", Description = _faker.Lorem.Sentence() },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Transport", Description = _faker.Lorem.Sentence() },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Entertainment", Description = _faker.Lorem.Sentence() },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Health", Description = _faker.Lorem.Sentence() },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Clothes", Description = _faker.Lorem.Sentence() },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", Description = _faker.Lorem.Sentence() },
+            categoryFood,
+            categoryTransport,
+            categoryEntertainment,
+            categoryHealth,
+            categoryClothes,
+            categoryOther
         };
         
         context.ExpenseCategories.AddRange(expenseCategories);
         
         
-        // Tags
-        var expenseTags = new List<ExpenseTag>
+        // Expense Tags
+        
+        var tagsFood = new List<ExpenseTag>
         {
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Restaurant" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Fast food" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Public transport" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Taxi" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Cinema" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Theatre" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Medicine" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Doctor" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Pharmacy" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Shirt" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Trousers" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Shoes" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Hat" },
-            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other" }
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Restaurant", CategoryId = categoryFood.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Fast food", CategoryId = categoryFood.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Groceries", CategoryId = categoryFood.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", CategoryId = categoryFood.Id },
         };
         
-        context.ExpenseTags.AddRange(expenseTags);
+        var tagsTransport = new List<ExpenseTag>
+        {
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Public transport", CategoryId = categoryTransport.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Taxi", CategoryId = categoryTransport.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Car", CategoryId = categoryTransport.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", CategoryId = categoryTransport.Id },
+        };
+        
+        var tagsEntertainment = new List<ExpenseTag>
+        {
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Cinema", CategoryId = categoryEntertainment.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Theatre", CategoryId = categoryEntertainment.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Concert", CategoryId = categoryEntertainment.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", CategoryId = categoryEntertainment.Id },
+        };
+        
+        var tagsHealth = new List<ExpenseTag>
+        {
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Medicine", CategoryId = categoryHealth.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Doctor", CategoryId = categoryHealth.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Pharmacy", CategoryId = categoryHealth.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", CategoryId = categoryHealth.Id },
+        };
+        
+        var tagsClothes = new List<ExpenseTag>
+        {
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Shirt", CategoryId = categoryClothes.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Trousers", CategoryId = categoryClothes.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Shoes", CategoryId = categoryClothes.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Hat", CategoryId = categoryClothes.Id },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Other", CategoryId = categoryClothes.Id },
+        };
+        
+        var tagsGeneral = new List<ExpenseTag>
+        {
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Lorem" },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Ipsum" },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Dolor" },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Sit" },
+            new() { Id = Guid.NewGuid(), UserId = user.Id, Name = "Amet" }
+        };
+        
+        context.ExpenseTags.AddRange(tagsFood);
+        context.ExpenseTags.AddRange(tagsTransport);
+        context.ExpenseTags.AddRange(tagsEntertainment);
+        context.ExpenseTags.AddRange(tagsHealth);
+        context.ExpenseTags.AddRange(tagsClothes);
+        context.ExpenseTags.AddRange(tagsGeneral);
         
         
         // Expenses
@@ -89,8 +134,19 @@ public class DatabaseSeeder(ApplicationDbContext context)
         for (int i = 0; i < numberOfExpenses; i++)
         {
             var category = expenseCategories[_faker.Random.Int(0, expenseCategories.Count - 1)];
-            var numberOfTags = _faker.Random.Int(0, 5);
-            var tags = expenseTags.OrderBy(t => _faker.Random.Int()).Take(numberOfTags).ToList();
+            var numberOfGeneralTags = _faker.Random.Int(0, 5);
+            var numberOfTargetTags = _faker.Random.Int(0, 4);
+            
+            var tags = tagsGeneral.OrderBy(t => _faker.Random.Int()).Take(numberOfGeneralTags).ToList();
+            tags.AddRange(category.Name switch 
+            {
+                "Food" => tagsFood.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Transport" => tagsTransport.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Entertainment" => tagsEntertainment.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Health" => tagsHealth.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Clothes" => tagsClothes.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                _ => new List<ExpenseTag>()
+            });
             
             var expense = new Expense
             {
@@ -114,8 +170,19 @@ public class DatabaseSeeder(ApplicationDbContext context)
         for (int i = 0; i < numberOfTemplates; i++)
         {
             var category = expenseCategories[_faker.Random.Int(0, expenseCategories.Count - 1)];
-            var numberOfTags = _faker.Random.Int(0, 5);
-            var tags = expenseTags.OrderBy(t => _faker.Random.Int()).Take(numberOfTags).ToList();
+            var numberOfGeneralTags = _faker.Random.Int(0, 5);
+            var numberOfTargetTags = _faker.Random.Int(0, 4);
+            
+            var tags = tagsGeneral.OrderBy(t => _faker.Random.Int()).Take(numberOfGeneralTags).ToList();
+            tags.AddRange(category.Name switch 
+            {
+                "Food" => tagsFood.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Transport" => tagsTransport.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Entertainment" => tagsEntertainment.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Health" => tagsHealth.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                "Clothes" => tagsClothes.OrderBy(t => _faker.Random.Int()).Take(numberOfTargetTags).ToList(),
+                _ => new List<ExpenseTag>()
+            });
             
             var template = new ExpenseTemplate
             {

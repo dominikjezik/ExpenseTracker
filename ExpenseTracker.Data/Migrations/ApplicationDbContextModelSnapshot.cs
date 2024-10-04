@@ -99,6 +99,9 @@ namespace ExpenseTracker.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -108,10 +111,13 @@ namespace ExpenseTracker.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("UserId");
 
-                    b.HasIndex("Name", "UserId")
-                        .IsUnique();
+                    b.HasIndex("Name", "UserId", "CategoryId")
+                        .IsUnique()
+                        .HasFilter("[CategoryId] IS NOT NULL");
 
                     b.ToTable("ExpenseTags");
                 });
@@ -466,11 +472,17 @@ namespace ExpenseTracker.Data.Migrations
 
             modelBuilder.Entity("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseTag", b =>
                 {
+                    b.HasOne("ExpenseTracker.Data.Entities.ExpenseAggregate.ExpenseCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("ExpenseTracker.Data.Identity.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });

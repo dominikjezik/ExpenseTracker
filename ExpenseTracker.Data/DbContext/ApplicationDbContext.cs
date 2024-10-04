@@ -48,7 +48,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .IsUnique();
         
         builder.Entity<ExpenseTag>()
-            .HasIndex(t => new { t.Name, t.UserId })
+            .HasIndex(t => new { t.Name, t.UserId, t.CategoryId })
             .IsUnique();
 
         builder.Entity<IncomeCategory>()

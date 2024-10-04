@@ -12,12 +12,30 @@ public class ExpenseTagsController(ILogger<ExpensesController> logger, IMediator
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<ExpenseTagDTO>>> GetTags()
+    public async Task<ActionResult<IEnumerable<ExpenseTagDTO>>> GetAllTags()
     {
         try
         {
             var userId = GetCurrentUserId();
             var expenses = await mediator.Send(new GetExpenseTagsQuery(userId));
+            return Ok(expenses);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An exception was thrown while fetching expense tags.");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+    
+    [HttpGet("/api/expenses/tagsByCategory")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<IEnumerable<ExpenseTagDTO>>> GetAllTags([FromQuery] Guid? categoryId, [FromQuery] bool includeGeneral)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var expenses = await mediator.Send(new GetExpenseTagsByCategoryQuery(userId, categoryId, includeGeneral));
             return Ok(expenses);
         }
         catch (Exception ex)
@@ -37,7 +55,7 @@ public class ExpenseTagsController(ILogger<ExpensesController> logger, IMediator
         {
             var userId = GetCurrentUserId();
             var createdTag = await mediator.Send(new CreateExpenseTagCommand(tagForm, userId));
-            return CreatedAtAction(nameof(GetTags), createdTag);
+            return CreatedAtAction(nameof(GetAllTags), createdTag);
         }
         catch (InvalidOperationException ex)
         {

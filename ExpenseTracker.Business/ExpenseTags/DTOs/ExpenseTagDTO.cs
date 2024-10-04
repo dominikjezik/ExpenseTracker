@@ -16,6 +16,16 @@ public class ExpenseTagDTO
     /// Name of the tag.
     /// </summary>
     public string Name { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Id of the category the tag belongs to.
+    /// </summary>
+    public Guid? CategoryId { get; set; }
+    
+    /// <summary>
+    /// Name of the category the tag belongs to.
+    /// </summary>
+    public string? CategoryName { get; set; }
 }
 
 /// <summary>
@@ -28,7 +38,9 @@ public static class ExpenseTagDTOExtensions
         return new ExpenseTagDTO
         {
             TagId = tag.Id,
-            Name = tag.Name
+            Name = tag.Name,
+            CategoryId = tag.CategoryId,
+            CategoryName = tag.Category?.Name
         };
     }
 }

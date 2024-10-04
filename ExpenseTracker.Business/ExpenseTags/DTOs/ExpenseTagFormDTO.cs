@@ -13,6 +13,11 @@ public class ExpenseTagFormDTO
     /// </summary>
     [Required]
     public string Name { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Id of the category the tag belongs to.
+    /// </summary>
+    public Guid? CategoryId { get; set; }
 }
 
 /// <summary>
@@ -24,7 +29,8 @@ public static class ExpenseTagFormDTOExtensions
     {
         var tag = new ExpenseTag
         {
-            Name = form.Name
+            Name = form.Name,
+            CategoryId = form.CategoryId
         };
 
         return tag;
@@ -34,7 +40,8 @@ public static class ExpenseTagFormDTOExtensions
     {
         return new ExpenseTagFormDTO
         {
-            Name = tag.Name
+            Name = tag.Name,
+            CategoryId = tag.CategoryId
         };
     }
 }

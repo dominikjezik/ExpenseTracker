@@ -45,20 +45,16 @@
     {
         var datasets = new List<IChartDataset>();
         
-        var c = ColorUtility.CategoricalTwelveColors[0].ToColor();
-        
         // Get Incomes data
         var incomesData = Data.Select(x => (double?)x.Incomes).ToList();
         datasets.Add(new BarChartDataset
         {
             Label = "Incomes",
             Data = incomesData,
-            BackgroundColor = [c.ToRgbString()],
-            BorderColor = [c.ToRgbString()],
+            BackgroundColor = ["#008f5d"],
+            BorderColor = ["#008f5d"],
             BorderWidth = [0]
         });
-        
-        c = ColorUtility.CategoricalTwelveColors[1].ToColor();
         
         // Get Expenses data
         var expensesData = Data.Select(x => (double?)x.Expenses).ToList();
@@ -66,8 +62,8 @@
         {
             Label = "Expenses",
             Data = expensesData,
-            BackgroundColor = [c.ToRgbString()],
-            BorderColor = [c.ToRgbString()],
+            BackgroundColor = ["#de3d82"],
+            BorderColor = ["#de3d82"],
             BorderWidth = [0]
         });
 

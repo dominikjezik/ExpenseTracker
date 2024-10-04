@@ -28,6 +28,9 @@ else if (Tags.IsSuccess)
             <GridColumn TItem="ExpenseTagDTO" HeaderText="Name" PropertyName="@nameof(ExpenseTagDTO.Name)" SortKeySelector="e => e.Name">
                 @context.Name
             </GridColumn>
+            <GridColumn TItem="ExpenseTagDTO" HeaderText="Category" PropertyName="@nameof(ExpenseTagDTO.CategoryName)" SortKeySelector="e => e.CategoryName">
+                @context.CategoryName
+            </GridColumn>
         </GridColumns>
     </Grid>
 }

@@ -1,5 +1,6 @@
 ﻿using BlazorBootstrap;
 using ExpenseTracker.Business.Client.Abstraction;
+using ExpenseTracker.Business.Client.Helpers;
 using ExpenseTracker.Business.ExpenseCategories.DTOs;
 using ExpenseTracker.Business.Expenses.DTOs;
 using ExpenseTracker.Business.ExpenseTags.DTOs;
@@ -18,8 +19,8 @@ public partial class ExpenseDetailForm
     private ExpenseFormDTO ExpenseForm { get; set; } = new();
     
     private List<ExpenseCategoryDTO> Categories { get; set; } = new();
-    
-    private List<ExpenseTagDTO> Tags { get; set; } = new();
+
+    private Result<List<ExpenseTagDTO>> Tags { get; set; } = Result<List<ExpenseTagDTO>>.Loading();
     
     [Inject]
     private IExpensesService ExpensesService { get; set; } = null!;
@@ -39,22 +40,34 @@ public partial class ExpenseDetailForm
     protected override async Task OnInitializedAsync()
     {
         Categories = (await CategoriesService.GetCategories())?.Data ?? new();
-        Tags = (await TagsService.GetTags())?.Data ?? new();
 
-        if (SelectedExpense != null)
+        if (SelectedExpense == null)
+        {
+            Tags = await TagsService.GetTagsByCategory(null, includeGeneral: true);
+        }
+        else
         {
             ExpenseForm = SelectedExpense.ToForm();
+            Tags = await TagsService.GetTagsByCategory(ExpenseForm.CategoryId, includeGeneral: true);
         }
     }
 
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
         if (SelectedExpense != null)
         {
             ExpenseForm = SelectedExpense.ToForm();
+            if (ExpenseForm.CategoryId != null)
+            {
+                Tags = await TagsService.GetTagsByCategory(ExpenseForm.CategoryId, includeGeneral: true);
+            }
         }
-        
-        return base.OnParametersSetAsync();
+    }
+    
+    private async Task OnCategoryChanged(Guid? categoryId)
+    {
+        ExpenseForm.CategoryId = categoryId;
+        Tags = await TagsService.GetTagsByCategory(ExpenseForm.CategoryId, includeGeneral: true);
     }
 
     private bool IsActiveTag(Guid tagId)
@@ -128,5 +141,10 @@ public partial class ExpenseDetailForm
                 Message = updateResult.ErrorMessage
             });
         }
+    }
+    
+    public ExpenseFormDTO GetExpenseForm()
+    {
+        return ExpenseForm;
     }
 }

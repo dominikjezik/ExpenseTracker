@@ -9,7 +9,7 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    box-shadow: 4px 0 4px -2px rgba(0,0,0,.2);
 }
 
 .top-row {
@@ -56,6 +56,7 @@ main {
         height: 100vh;
         position: sticky;
         top: 0;
+        z-index: 2;
     }
 
     .top-row {
@@ -88,9 +89,9 @@ main {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}

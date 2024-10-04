@@ -18,16 +18,24 @@ public class UpdateExpenseTagCommandHandler(ApplicationDbContext context)
                 
         if (request.ExistingTag.Name != request.TagForm.Name)
         {
-            var existingTag = await context.ExpenseTags
-                .FirstOrDefaultAsync(c => c.UserId == request.UserId && c.Name == request.TagForm.Name);
-            
-            if (existingTag != null)
+            var tagExists = await context.ExpenseTags
+                .AnyAsync(t => t.Name == request.TagForm.Name 
+                               && t.UserId == request.UserId
+                               && t.CategoryId == request.TagForm.CategoryId);
+
+            if (tagExists)
             {
-                throw new InvalidOperationException($"Tag \"{request.TagForm.Name}\" already exists.");
+                if (request.TagForm.CategoryId == null)
+                {
+                    throw new InvalidOperationException($"Tag \"{request.TagForm.Name}\" already exists.");
+                }
+
+                throw new InvalidOperationException($"Tag \"{request.TagForm.Name}\" already exists for selected category.");
             }
         }
         
         request.ExistingTag.Name = request.TagForm.Name;
+        request.ExistingTag.CategoryId = request.TagForm.CategoryId;
         
         context.ExpenseTags.Update(request.ExistingTag);
         

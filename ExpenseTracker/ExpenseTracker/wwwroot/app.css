@@ -49,3 +49,8 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+.badge-gradient {
+    background: linear-gradient(90deg, rgba(42,151,225,1) 0%, rgb(65, 176, 255) 100%);
+    color: white;
+}

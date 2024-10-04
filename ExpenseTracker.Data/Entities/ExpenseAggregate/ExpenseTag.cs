@@ -11,6 +11,16 @@ public class ExpenseTag : BaseEntity<Guid>
     /// Name of the tag.
     /// </summary>
     public string Name { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// ExpenseTag may or may not belong to expense category.
+    /// </summary>
+    public Guid? CategoryId { get; set; }
+    
+    /// <summary>
+    /// Expense category to which the tag belongs.
+    /// </summary>
+    public ExpenseCategory? Category { get; set; }
 
     /// <summary>
     /// Expenses which are associated with the tag.

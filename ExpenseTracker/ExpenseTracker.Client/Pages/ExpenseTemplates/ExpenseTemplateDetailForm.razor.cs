@@ -1,5 +1,6 @@
 ﻿using BlazorBootstrap;
 using ExpenseTracker.Business.Client.Abstraction;
+using ExpenseTracker.Business.Client.Helpers;
 using ExpenseTracker.Business.ExpenseCategories.DTOs;
 using ExpenseTracker.Business.ExpenseTags.DTOs;
 using ExpenseTracker.Business.ExpenseTemplates.DTOs;
@@ -18,7 +19,7 @@ public partial class ExpenseTemplateDetailForm
     
     private List<ExpenseCategoryDTO> Categories { get; set; } = new();
     
-    private List<ExpenseTagDTO> Tags { get; set; } = new();
+    private Result<List<ExpenseTagDTO>> Tags { get; set; } = Result<List<ExpenseTagDTO>>.Loading();
     
     [Inject]
     private IExpenseTemplatesService ExpenseTemplatesService { get; set; } = null!;
@@ -38,12 +39,22 @@ public partial class ExpenseTemplateDetailForm
     protected override async Task OnInitializedAsync()
     {
         Categories = (await CategoriesService.GetCategories())?.Data ?? new();
-        Tags = (await TagsService.GetTags())?.Data ?? new();
-
-        if (SelectedTemplate != null)
+        
+        if (SelectedTemplate == null)
+        {
+            Tags = await TagsService.GetTagsByCategory(null, includeGeneral: true);
+        }
+        else
         {
             ExpenseTemplateForm = SelectedTemplate.ToForm();
+            Tags = await TagsService.GetTagsByCategory(ExpenseTemplateForm.CategoryId, includeGeneral: true);
         }
+    }
+    
+    private async Task OnCategoryChanged(Guid? categoryId)
+    {
+        ExpenseTemplateForm.CategoryId = categoryId;
+        Tags = await TagsService.GetTagsByCategory(ExpenseTemplateForm.CategoryId, includeGeneral: true);
     }
     
     private bool IsActiveTag(Guid tagId)

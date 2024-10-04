@@ -11,6 +11,27 @@ public class ExpenseTagsService(HttpClient httpClient) : IExpenseTagsService
     public async Task<Result<List<ExpenseTagDTO>>> GetTags()
     {
         var response = await httpClient.GetAsync("api/expenses/tags");
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            return Result<List<ExpenseTagDTO>>.Error("Failed to get expense tags");
+        }
+        
+        var tags = await response.Content.ReadFromJsonAsync<List<ExpenseTagDTO>>();
+        
+        return Result<List<ExpenseTagDTO>>.Success(tags!);
+    }
+    
+    public async Task<Result<List<ExpenseTagDTO>>> GetTagsByCategory(Guid? categoryId = null, bool includeGeneral = true)
+    {
+        var url = $"api/expenses/tagsByCategory?includeGeneral={includeGeneral}";
+        
+        if (categoryId != null)
+        {
+            url += $"&categoryId={categoryId}";
+        }
+        
+        var response = await httpClient.GetAsync(url);
        
         if (!response.IsSuccessStatusCode)
         {

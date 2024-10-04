@@ -6,6 +6,8 @@ namespace ExpenseTracker.Business.Client.Abstraction;
 public interface IExpenseTagsService
 {
     Task<Result<List<ExpenseTagDTO>>> GetTags();
+
+    Task<Result<List<ExpenseTagDTO>>> GetTagsByCategory(Guid? categoryId, bool includeGeneral = true);
         
     Task<Result<ExpenseTagDTO>> CreateTag(ExpenseTagFormDTO tagForm);
 

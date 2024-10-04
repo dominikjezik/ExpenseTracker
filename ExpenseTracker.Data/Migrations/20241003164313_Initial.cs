@@ -179,25 +179,6 @@ namespace ExpenseTracker.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExpenseTags",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExpenseTags", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExpenseTags_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "IncomeCategories",
                 columns: table => new
                 {
@@ -239,6 +220,31 @@ namespace ExpenseTracker.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Expenses_ExpenseCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "ExpenseCategories",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExpenseTags",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExpenseTags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExpenseTags_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExpenseTags_ExpenseCategories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "ExpenseCategories",
                         principalColumn: "Id");
@@ -408,10 +414,16 @@ namespace ExpenseTracker.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExpenseTags_Name_UserId",
+                name: "IX_ExpenseTags_CategoryId",
                 table: "ExpenseTags",
-                columns: new[] { "Name", "UserId" },
-                unique: true);
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExpenseTags_Name_UserId_CategoryId",
+                table: "ExpenseTags",
+                columns: new[] { "Name", "UserId", "CategoryId" },
+                unique: true,
+                filter: "[CategoryId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExpenseTags_UserId",
