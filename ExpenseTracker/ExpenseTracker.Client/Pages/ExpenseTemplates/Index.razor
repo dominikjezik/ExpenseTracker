@@ -3,9 +3,11 @@
 
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
+<PageTitle>Expense Templates | Expense Tracker</PageTitle>
+
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Expense Templates</h1>
-    <NavLink href="/expenses/templates/create" class="btn btn-success">Create Expense Template</NavLink>
+    <NavLink href="/expenses/templates/create" class="btn btn-success">New Template</NavLink>
 </div>
 
 @if (ExpenseTemplates.IsLoading)

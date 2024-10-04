@@ -4,7 +4,7 @@ using ReactorBlazorQRCodeScanner;
 
 namespace ExpenseTracker.Client.Pages;
 
-public partial class ReceiptsScan : IAsyncDisposable
+public partial class ScanReceipt : IAsyncDisposable
 {
     [Inject] 
     private IJSRuntime JS { get; set; }

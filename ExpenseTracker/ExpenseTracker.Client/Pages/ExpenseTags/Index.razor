@@ -3,6 +3,8 @@
 
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
+<PageTitle>Expense Tags | Expense Tracker</PageTitle>
+
 <ExpenseTagDetailModal @ref="tagDetailModal" OnSuccess="FetchTags" OnDelete="DeleteTag" />
 
 <ConfirmDialog @ref="deleteDialog" />

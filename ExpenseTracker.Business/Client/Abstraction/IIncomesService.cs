@@ -5,7 +5,7 @@ namespace ExpenseTracker.Business.Client.Abstraction;
 
 public interface IIncomesService
 {
-    Task<Result<List<IncomeDTO>>> GetIncomes();
+    Task<Result<List<IncomeDTO>>> GetIncomes(DateTime fromDate, DateTime toDate);
     
     Task<Result<IncomeDTO>> GetIncomeById(Guid incomeId);
     

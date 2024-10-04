@@ -1,9 +1,8 @@
 @page "/incomes/create"
 
-@attribute [StreamRendering]
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
-@* @rendermode InteractiveAuto *@
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+<PageTitle>Create Income | Expense Tracker</PageTitle>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Create new Income</h1>

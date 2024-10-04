@@ -1,7 +1,9 @@
 @page "/expenses/categories"
 @using ExpenseTracker.Business.ExpenseCategories.DTOs
 
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<PageTitle>Expense Categories | Expense Tracker</PageTitle>
 
 <ExpenseCategoryDetailModal @ref="categoryDetailModal" OnSuccess="FetchCategories" OnDelete="DeleteCategory" />
 

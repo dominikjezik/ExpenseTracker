@@ -1,7 +1,8 @@
 ﻿@page "/expenses/create"
 
-@* @rendermode InteractiveAuto *@
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<PageTitle>Create Expense | Expense Tracker</PageTitle>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Create new Expense</h1>

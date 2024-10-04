@@ -1,9 +1,8 @@
 ﻿@page "/expenses/{ExpenseId:guid}"
 
-@attribute [StreamRendering]
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
-@* @rendermode InteractiveAuto *@
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+<PageTitle>Expense Details | Expense Tracker</PageTitle>
 
 <ConfirmDialog @ref="deleteDialog" />
 

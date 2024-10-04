@@ -8,9 +8,9 @@ namespace ExpenseTracker.Business.Client.Services;
 
 public class IncomesService(HttpClient httpClient) : IIncomesService
 {
-    public async Task<Result<List<IncomeDTO>>> GetIncomes()
+    public async Task<Result<List<IncomeDTO>>> GetIncomes(DateTime fromDate, DateTime toDate)
     {
-        var response = await httpClient.GetAsync("api/incomes");
+        var response = await httpClient.GetAsync($"api/incomes?fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
        
         if (!response.IsSuccessStatusCode)
         {

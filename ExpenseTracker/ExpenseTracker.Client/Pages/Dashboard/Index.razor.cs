@@ -24,11 +24,11 @@ public partial class Index
     
     protected override async Task OnInitializedAsync()
     {
-        fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-        toDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+        // We want expenses from whole last day (without this it would take expenses to 00:00 of toDate)
+        var modifiedToDate = toDate.AddDays(1);
         
         var yearDataTask = StatisticsService.GetYearStatistics();
-        var categoriesExpensesDataTask = StatisticsService.GetCategoriesExpenses(fromDate, toDate);
+        var categoriesExpensesDataTask = StatisticsService.GetCategoriesExpenses(fromDate, modifiedToDate);
         var balanceDataTask = StatisticsService.GetBalance(fromDate, toDate);
         
         await Task.WhenAll(yearDataTask, categoriesExpensesDataTask, balanceDataTask);
@@ -56,7 +56,6 @@ public partial class Index
         CategoriesExpensesData = Result<List<CategoryExpenseDataItemDTO>>.Loading();
         BalanceData = Result<BalanceDTO>.Loading();
         
-        // We want expenses from whole last day (without this it would take expenses to 00:00 of toDate)
         var modifiedToDate = toDate.AddDays(1);
         
         CategoriesExpensesData = await StatisticsService.GetCategoriesExpenses(fromDate, modifiedToDate);

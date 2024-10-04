@@ -12,12 +12,12 @@ public class IncomesController(ILogger<IncomesController> logger, IMediator medi
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int page = 1, int pageSize = 100)
+    public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(DateTime? fromDate, DateTime? toDate)
     {
         try
         {
             var userId = GetCurrentUserId();
-            var incomes = await mediator.Send(new GetIncomesQuery(userId, page, pageSize));
+            var incomes = await mediator.Send(new GetIncomesQuery(userId, fromDate, toDate));
             return Ok(incomes);
         }
         catch (Exception ex)

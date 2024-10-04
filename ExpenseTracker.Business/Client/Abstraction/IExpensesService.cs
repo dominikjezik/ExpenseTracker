@@ -5,7 +5,7 @@ namespace ExpenseTracker.Business.Client.Abstraction;
 
 public interface IExpensesService
 {
-    Task<Result<List<ExpenseDTO>>> GetExpenses();
+    Task<Result<List<ExpenseDTO>>> GetExpenses(DateTime fromDate, DateTime toDate);
     
     Task<Result<ExpenseDTO>> GetExpenseById(Guid expenseId);
     

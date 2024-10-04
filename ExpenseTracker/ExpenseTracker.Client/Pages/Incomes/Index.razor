@@ -1,12 +1,33 @@
 @page "/incomes"
 @using ExpenseTracker.Business.Incomes.DTOs
 
-@*@attribute [StreamRendering]*@
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+<PageTitle>Incomes | Expense Tracker</PageTitle>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Incomes</h1>
-    <NavLink href="/incomes/create" class="btn btn-success">Create Income</NavLink>
+    <div class="d-flex justify-content-center align-items-center">
+        @if (!FirstLoad || !Incomes.IsLoading)
+        {
+        <div class="d-flex">
+            <div class="d-flex align-items-center me-2">
+                <span>Time&nbsp;interval:</span>
+            </div>
+            <InputDate TValue="DateTime" Value="fromDate" ValueChanged="@((DateTime value) => OnFromDateChanged(value))"
+                       ValueExpression="@(() => fromDate)" class="form-control me-2"/>
+
+            <InputDate TValue="DateTime" Value="toDate" ValueChanged="@((DateTime value) => OnToDateChanged(value))"
+                       ValueExpression="@(() => toDate)" class="form-control me-4"/>
+        </div>
+        }
+        <NavLink href="/incomes/create" class="btn btn-success d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg me-1" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+            </svg>
+            Create new Income
+        </NavLink>
+    </div>
 </div>
 
 @if (Incomes.IsLoading)
@@ -19,7 +40,10 @@ else if (Incomes.IsSuccess)
           Data="Incomes.Data"
           AllowRowClick="true"
           AllowSorting="true"
+          AllowPaging="true"
           OnRowClick="OnRowClick"
+          PageSizeSelectorVisible="true"
+          PageSizeSelectorItems="@(new[] { 10,20,50,100 })"
           Class="table table-hover table-bordered table-striped">
         <GridColumns>
             <GridColumn TItem="IncomeDTO" HeaderText="Date" PropertyName="@nameof(IncomeDTO.CreatedAt)" SortKeySelector="e => e.CreatedAt">

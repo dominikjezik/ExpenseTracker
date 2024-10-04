@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ExpenseTracker.Business.Expenses.Queries;
 
-public record GetExpensesQuery(Guid UserId, int Page, int Limit) : IRequest<IEnumerable<ExpenseDTO>>;
+public record GetExpensesQuery(Guid UserId, DateTime? FromDate, DateTime? ToDate) : IRequest<IEnumerable<ExpenseDTO>>;

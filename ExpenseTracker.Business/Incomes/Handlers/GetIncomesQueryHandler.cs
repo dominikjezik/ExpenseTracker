@@ -11,12 +11,17 @@ public class GetIncomesQueryHandler(ApplicationDbContext context)
 {
     public async Task<IEnumerable<IncomeDTO>> Handle(GetIncomesQuery request, CancellationToken cancellationToken)
     {
-        return await context.Incomes
-            .Where(e => e.UserId == request.UserId)
+        var query = context.Incomes
+            .Where(e => e.UserId == request.UserId);
+
+        if (request.FromDate.HasValue && request.ToDate.HasValue)
+        {
+            query = query.Where(e => e.CreatedAt >= request.FromDate && e.CreatedAt < request.ToDate);
+        }
+        
+        return await query
             .Include(e => e.Category)
             .OrderByDescending(e => e.CreatedAt)
-            .Skip(request.Limit * (request.Page - 1))
-            .Take(request.Limit)
             .Select(e => e.ToDTO())
             .ToListAsync();
     }

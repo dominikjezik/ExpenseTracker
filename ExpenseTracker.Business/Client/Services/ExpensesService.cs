@@ -8,9 +8,9 @@ namespace ExpenseTracker.Business.Client.Services;
 
 public class ExpensesService(HttpClient httpClient) : IExpensesService
 {
-    public async Task<Result<List<ExpenseDTO>>> GetExpenses()
+    public async Task<Result<List<ExpenseDTO>>> GetExpenses(DateTime fromDate, DateTime toDate)
     {
-        var response = await httpClient.GetAsync("api/expenses");
+        var response = await httpClient.GetAsync($"api/expenses?fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
        
         if (!response.IsSuccessStatusCode)
         {

@@ -11,14 +11,19 @@ public class GetExpensesQueryHandler(ApplicationDbContext context)
 {
     public async Task<IEnumerable<ExpenseDTO>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
     {
-        return await context.Expenses
-            .Where(e => e.UserId == request.UserId)
+        var query = context.Expenses
+            .Where(e => e.UserId == request.UserId);
+        
+        if (request.FromDate.HasValue && request.ToDate.HasValue)
+        {
+            query = query.Where(e => e.CreatedAt >= request.FromDate && e.CreatedAt < request.ToDate);
+        }
+        
+        return await query
             .Include(e => e.Category)
             .Include(e => e.Tags)
                 .ThenInclude(eet => eet.ExpenseTag)
             .OrderByDescending(e => e.CreatedAt)
-            .Skip(request.Limit * (request.Page - 1))
-            .Take(request.Limit)
             .Select(e => e.ToDTO())
             .ToListAsync();
     }
