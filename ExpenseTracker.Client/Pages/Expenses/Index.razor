@@ -44,7 +44,9 @@ else if (Expenses.IsSuccess)
           AllowPaging="true"
           OnRowClick="OnRowClick"
           PageSizeSelectorVisible="true"
+          PageSize="GridPageSize"
           PageSizeSelectorItems="@(new[] { 10,20,50,100 })"
+          GridSettingsChanged="OnGridSettingsChanged"
           Class="table table-hover table-bordered table-striped">
         <GridColumns>
             <GridColumn TItem="ExpenseDTO" HeaderText="Date" PropertyName="@nameof(ExpenseDTO.CreatedAt)" SortKeySelector="e => e.CreatedAt">

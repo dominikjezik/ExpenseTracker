@@ -22,6 +22,8 @@ public partial class Index
     
     private DateTime toDate = new(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
     
+    public int GridPageSize { get; set; } = 10;
+    
     protected override async Task OnInitializedAsync()
     {
         // We want expenses from whole last day (without this it would take expenses to 00:00 of toDate)
@@ -54,5 +56,10 @@ public partial class Index
         // We want expenses from whole last day (without this it would take expenses to 00:00 of toDate)
         var modifiedToDate = toDate.AddDays(1);
         Incomes = await IncomesService.GetIncomes(fromDate, modifiedToDate);
+    }
+    
+    private void OnGridSettingsChanged(GridSettings gridSettings)
+    {
+        GridPageSize = gridSettings.PageSize;
     }
 }
