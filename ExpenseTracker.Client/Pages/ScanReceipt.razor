@@ -1,6 +1,7 @@
 @page "/receipts/scan"
 @using ReactorBlazorQRCodeScanner
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Scan Receipt | Expense Tracker</PageTitle>

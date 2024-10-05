@@ -14,9 +14,11 @@ public partial class Create
     [SupplyParameterFromQuery]
     public string? ReceiptCode { get; set; }
 
-    private Result<ReceiptDTO>? ReceiptResult { get; set; } = null;
+    private Result<ReceiptDTO>? ReceiptResult { get; set; }
     
-    private Result<List<ExpenseTemplateDTO>>? TemplatesResult { get; set; } = null;
+    private Result<List<ExpenseTemplateDTO>>? TemplatesResult { get; set; }
+
+    private Result<ExpenseTemplateDTO>? CreateTemplateResult { get; set; }
     
     private ExpenseDTO? LoadedExpense { get; set; }
 
@@ -84,7 +86,7 @@ public partial class Create
                 }
             }
             
-            LoadedExpense = loadedExpense;
+            await expenseDetailForm.SetExpense(loadedExpense);
         }
         else
         {
@@ -111,9 +113,9 @@ public partial class Create
             TagIds = expenseForm.TagIds
         };
 
-        var result = await ExpenseTemplateService.CreateTemplate(template);
+        CreateTemplateResult = await ExpenseTemplateService.CreateTemplate(template);
 
-        if (result.IsSuccess)
+        if (CreateTemplateResult.IsSuccess)
         {
             ToastService.Notify(new()
             {
@@ -126,7 +128,7 @@ public partial class Create
             ToastService.Notify(new()
             {
                 Type = ToastType.Danger,
-                Message = result.ErrorMessage
+                Message = CreateTemplateResult.ErrorMessage
             });
         }
     }

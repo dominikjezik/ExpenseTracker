@@ -1,10 +1,12 @@
 using ExpenseTracker.Business.Statistics.DTOs;
 using ExpenseTracker.Business.Statistics.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Web.API;
 
+[Authorize]
 [Route("api/statistics")]
 public class StatisticsController(ILogger<StatisticsController> logger, IMediator mediator) : ApplicationApiController
 {

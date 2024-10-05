@@ -1,5 +1,6 @@
 ﻿@page "/expenses/{ExpenseId:guid}"
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Expense Details | Expense Tracker</PageTitle>

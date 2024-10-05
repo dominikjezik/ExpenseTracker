@@ -1,5 +1,6 @@
 ﻿@page "/expenses/templates/{TemplateId:guid}"
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Template Details | Expense Tracker</PageTitle>

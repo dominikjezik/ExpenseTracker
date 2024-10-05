@@ -52,16 +52,15 @@ public partial class ExpenseDetailForm
         }
     }
 
-    protected override async Task OnParametersSetAsync()
+    public async Task SetExpense(ExpenseDTO expense)
     {
-        if (SelectedExpense != null)
+        ExpenseForm = expense.ToForm();
+        if (ExpenseForm.CategoryId != null)
         {
-            ExpenseForm = SelectedExpense.ToForm();
-            if (ExpenseForm.CategoryId != null)
-            {
-                Tags = await TagsService.GetTagsByCategory(ExpenseForm.CategoryId, includeGeneral: true);
-            }
+            Tags = await TagsService.GetTagsByCategory(ExpenseForm.CategoryId, includeGeneral: true);
         }
+        
+        StateHasChanged();
     }
     
     private async Task OnCategoryChanged(Guid? categoryId)

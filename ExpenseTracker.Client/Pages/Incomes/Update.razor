@@ -1,5 +1,6 @@
 @page "/incomes/{IncomeId:guid}"
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Income Details | Expense Tracker</PageTitle>

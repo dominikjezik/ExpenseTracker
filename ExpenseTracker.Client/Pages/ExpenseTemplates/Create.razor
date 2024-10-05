@@ -1,5 +1,6 @@
 ﻿@page "/expenses/templates/create"
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Create Template | Expense Tracker</PageTitle>

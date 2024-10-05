@@ -1,6 +1,7 @@
 ﻿@page "/expenses"
 @using ExpenseTracker.Business.Expenses.DTOs
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Expenses | Expense Tracker</PageTitle>

@@ -2,10 +2,12 @@ using ExpenseTracker.Business.Incomes.Commands;
 using ExpenseTracker.Business.Incomes.DTOs;
 using ExpenseTracker.Business.Incomes.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Web.API;
 
+[Authorize]
 [Route("api/incomes")]
 public class IncomesController(ILogger<IncomesController> logger, IMediator mediator) : ApplicationApiController
 {

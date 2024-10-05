@@ -1,6 +1,7 @@
 @page "/incomes/categories"
 @using ExpenseTracker.Business.IncomeCategories.DTOs
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Income Categories| Expense Tracker</PageTitle>

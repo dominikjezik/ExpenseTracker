@@ -47,7 +47,7 @@
     padding-bottom: 0.5rem;
 }
 
-.nav-item:first-of-type {
+.nav-item.first-item-logged-in {
     padding-top: 1rem;
 }
 

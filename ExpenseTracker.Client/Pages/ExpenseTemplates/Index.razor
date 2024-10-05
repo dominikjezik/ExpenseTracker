@@ -1,6 +1,7 @@
 ﻿@page "/expenses/templates"
 @using ExpenseTracker.Business.ExpenseTemplates.DTOs
 
+@attribute [Authorize]
 @rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 <PageTitle>Expense Templates | Expense Tracker</PageTitle>

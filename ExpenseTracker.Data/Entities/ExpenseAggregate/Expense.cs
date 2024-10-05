@@ -20,7 +20,7 @@ public class Expense : BaseEntity<Guid>
     /// <summary>
     /// Description of the expense.
     /// </summary>
-    public string? Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     /// <summary>
     /// CategoryId of the expense.
