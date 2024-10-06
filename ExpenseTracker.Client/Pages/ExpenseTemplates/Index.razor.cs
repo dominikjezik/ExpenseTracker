@@ -21,7 +21,7 @@ public partial class Index
         ExpenseTemplates = await ExpenseTemplatesService.GetTemplates();
     }
     
-    private async Task OnRowClick(GridRowEventArgs<ExpenseTemplateDTO> args)
+    private void OnRowClick(GridRowEventArgs<ExpenseTemplateDTO> args)
     {
         NavigationManager.NavigateTo($"/expenses/templates/{args.Item.ExpenseTemplateId}");
     }

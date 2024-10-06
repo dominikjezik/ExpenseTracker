@@ -5,7 +5,7 @@ namespace ExpenseTracker.Business.Statistics.DTOs;
 /// </summary>
 public class CategoryExpenseDataItemDTO
 {
-    public string Category { get; set; }
+    public string Category { get; set; } = string.Empty;
     
     public decimal Expense { get; set; }
 }

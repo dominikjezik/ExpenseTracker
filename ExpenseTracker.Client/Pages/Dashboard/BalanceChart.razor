@@ -12,7 +12,7 @@
     private DoughnutChartOptions doughnutChartOptions = default!;
     private ChartData chartData = default!;
     
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         if (Data.Expenses == 0 && Data.Incomes == 0)
         {

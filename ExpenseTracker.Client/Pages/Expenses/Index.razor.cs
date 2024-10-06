@@ -31,7 +31,7 @@ public partial class Index
         Expenses = await ExpensesService.GetExpenses(fromDate, modifiedToDate);
     }
     
-    private async Task OnRowClick(GridRowEventArgs<ExpenseDTO> args)
+    private void OnRowClick(GridRowEventArgs<ExpenseDTO> args)
     {
         NavigationManager.NavigateTo($"/expenses/{args.Item.ExpenseId}");
     }

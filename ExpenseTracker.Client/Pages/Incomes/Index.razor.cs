@@ -31,7 +31,7 @@ public partial class Index
         Incomes = await IncomesService.GetIncomes(fromDate, modifiedToDate);
     }
     
-    private async Task OnRowClick(GridRowEventArgs<IncomeDTO> args)
+    private void OnRowClick(GridRowEventArgs<IncomeDTO> args)
     {
         NavigationManager.NavigateTo($"/incomes/{args.Item.IncomeId}");
     }

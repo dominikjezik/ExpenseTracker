@@ -7,10 +7,10 @@ namespace ExpenseTracker.Client.Pages;
 public partial class ScanReceipt : IAsyncDisposable
 {
     [Inject] 
-    private IJSRuntime JS { get; set; }
+    private IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    private NavigationManager NavigationManager { get; set; }
+    private NavigationManager NavigationManager { get; set; } = default!;
     
     // Code snippet used from documentation
     // https://github.com/YannVasseur35/ReactorBlazorQRCodeScanner
