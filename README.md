@@ -24,24 +24,24 @@ Before running the application, you need to set up the database connection in th
 
 
 
-# Expense Tracker
+# 💶 Expense Tracker
 Webová aplikácia na sledovanie osobných výdavkov a príjmov za účelom lepšieho prehľadu. Výdavky je možné kategorizovať do uživateľom vytvorených kateógrií a navyše je možné vytvoriť tagy pre označenie výdavkov. Okrem manuálnej evidencie výdavkov, kedy je možné výdavok vytvoriť vyplnení formuláru, je tiež možné využiť funkciu načítania Bločku. Používateľ cez kameru načíta QR kód bločku a formulár pre výdavok sa automaticky predvyplní. Pre spoločnosti, ktoré vydávajú bločky je možné vytvoriť šablóny, kde je možné preddefinovať kategóriu a tagy výdavku. V aplikácií si používateľ môže evidovať aj svoje príjmy a prehľady si vie zobraziť v podobe grafov.
 
 Aplikácia vznikla v rámci predmetu Pokročilé objektové technológie ako semestrálna práca na Fakulte riadenia a informatiky Žilinskej univerzity v Žiline.
 
-## Funkcie aplikácie
--  Prehľad výdavkov a príjmov v podobe grafov
-- Evidencia používateľových výdavkov
-- Kategorizácia výdavkov
-- Tagy pre označenie výdavkov
-- Načítanie bločku pre automatické predvyplnenie formulára výdavku
-- Správa šablón pre výdavky
-- Evidencia používateľových príjmov
-- Kategorizácia príjmov
+## 📊 Funkcie aplikácie
+- 📈 Prehľad výdavkov a príjmov v podobe grafov
+- 💶 Evidencia používateľových výdavkov
+- 🛍 Kategorizácia výdavkov
+- 🏷 Tagy pre označenie výdavkov
+- 🧾 Načítanie bločku pre automatické predvyplnenie formulára výdavku
+- 📑 Správa šablón pre výdavky
+- 💰 Evidencia používateľových príjmov
+- 💸 Kategorizácia príjmov
 
-## Technické detaily
+## 🖥 Technické detaily
 Aplikácia je vyvíjaná v technológiach ASP.NET a Blazor. Pre front-end, ktorý je realizovaný cez Blazor je vybudované WebAPI. S databázou komunikujeme cez EF Core. Biznis logiku aplikácie modelujeme cez prípady použitia (use-cases) knižnicou MediatR. Navyše používame knižnice ReactorBlazorQRCodeScanner a Blazor.Bootstrap.
 
-## Spustenie aplikácie
+## ⚙️ Spustenie aplikácie
 Pred spustením aplikácie je potrebné v konfiguračných súboroch nastaviť pripojenie na databázu, a tiež nastaviť URL a konkrétny endpoint externého API pre získanie informácií o bločku.
 
