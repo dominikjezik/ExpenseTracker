@@ -1,7 +1,7 @@
 # 💶 Expense Tracker
 A web application to track personal expenses and incomes for better insight. Expenses can be categorized into user-created cateogories, and also tags can be created to mark expenses. In addition to manual expense tracking, where an expense can be created by filling out a form, it is also possible to use camera to load purchase receipt. The user loads the QR code of the receipt via the camera and the form for the expense is automatically pre-filled. Templates can be created for companies that issue receipts where the category and tags of the expense can be predefined. The user can also keep track of their receipts in the application and can view the reports in the form of charts.
 
-The application was developed as a semester work on the Advanced Object Technologies course at the Faculty of Management and Informatics of the University of Žilina.
+The application was developed as a semester work on the Advanced Object Technologies course at the Faculty of Management Science and Informatics of the University of Žilina.
 
 ## 📊 Application functions
 - 📈 Overview of expenses and incomes in the form of charts
